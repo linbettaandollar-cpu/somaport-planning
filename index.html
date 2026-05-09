@@ -3,17 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RTG Planning - Somaport</title>
+<title>RTG Control Board</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
 <style>
-
-:root{
-    --green:#00ff9d;
-    --dark:#07111f;
-    --glass:rgba(255,255,255,0.06);
-}
 
 *{
     margin:0;
@@ -23,53 +17,71 @@
 }
 
 body{
-    background:linear-gradient(135deg,#040a14,#07111f,#0d1e36);
+    background:#050b14;
     color:white;
-    padding:20px;
 }
 
-/* HEADER */
+/* TOP STATUS BAR */
 
-.header{
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 20px;
+    background:#0b1a2c;
+    border-bottom:1px solid #00ff9d33;
+}
+
+.badge{
+    padding:6px 15px;
+    background:#00ff9d22;
+    color:#00ff9d;
+    border-radius:20px;
+}
+
+/* GRID */
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:15px;
+    padding:15px;
+}
+
+/* CARDS */
+
+.card{
+    background:#0b1626;
+    border:1px solid #ffffff10;
+    border-radius:18px;
+    padding:15px;
+}
+
+.title{
+    color:#00ff9d;
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+/* BIG RTG */
+
+.rtg-box{
     text-align:center;
     padding:25px;
-    background:rgba(255,255,255,0.05);
-    border-radius:20px;
-    border:1px solid rgba(255,255,255,0.08);
 }
-
-.header h1{
-    font-size:34px;
-    color:var(--green);
-    font-weight:900;
-}
-
-.header h2{
-    font-size:22px;
-    margin-top:5px;
-}
-
-/* RTG BOX */
 
 .rtg{
-    margin-top:15px;
-    font-size:28px;
+    font-size:50px;
     font-weight:900;
-    color:#fff;
-    background:#00ff9d22;
-    display:inline-block;
-    padding:8px 25px;
-    border-radius:20px;
+    color:#00ff9d;
 }
 
-/* SECTION */
-
-.section{
-    margin-top:20px;
-    background:rgba(255,255,255,0.05);
+.status{
+    margin-top:10px;
+    display:inline-block;
+    padding:6px 15px;
     border-radius:20px;
-    padding:20px;
-    border:1px solid rgba(255,255,255,0.08);
+    background:#00ff9d22;
 }
 
 /* TABLE */
@@ -79,41 +91,26 @@ table{
     border-collapse:collapse;
 }
 
-td,th{
-    padding:12px;
+td{
+    padding:8px;
+    border-bottom:1px solid #ffffff10;
     text-align:center;
-    border-bottom:1px solid rgba(255,255,255,0.1);
-    font-size:18px;
 }
 
-th{
-    color:var(--green);
-    font-size:20px;
-}
+/* FULL WIDTH SECTIONS */
 
-/* PAIRS STYLE */
-
-.pair{
-    font-weight:700;
-}
-
-/* CONGÉ */
-
-.conge{
-    font-size:20px;
-    text-align:center;
-    line-height:2;
+.full{
+    grid-column:span 3;
 }
 
 /* MOBILE */
 
-@media(max-width:700px){
-    td,th{
-        font-size:15px;
+@media(max-width:900px){
+    .grid{
+        grid-template-columns:1fr;
     }
-
-    .header h1{
-        font-size:26px;
+    .full{
+        grid-column:span 1;
     }
 }
 
@@ -122,86 +119,69 @@ th{
 
 <body>
 
-<!-- HEADER -->
-<div class="header">
-    <h1>Somaport - RTG Planning</h1>
-    <h2>Dimanche 10/05/2026</h2>
-    <div class="rtg">🚜 RTG N° 8</div>
+<!-- TOP BAR -->
+<div class="topbar">
+    <div>🚢 SOMAPORT RTG CONTROL</div>
+    <div class="badge">LIVE SYSTEM</div>
 </div>
 
-<!-- PAIRS -->
-<div class="section">
+<!-- GRID -->
+<div class="grid">
 
-    <h2 style="text-align:center;color:var(--green);margin-bottom:15px;">
-        👥 Les Binômes
-    </h2>
+    <!-- RTG STATUS -->
+    <div class="card rtg-box">
+        <div class="title">RTG MACHINE</div>
+        <div class="rtg">N° 8</div>
+        <div class="status">ACTIVE • OPERATIONAL</div>
+    </div>
 
-    <table>
+    <!-- DATE -->
+    <div class="card">
+        <div class="title">DATE</div>
+        <h2>10 / 05 / 2026</h2>
+        <p>Dimanche</p>
+    </div>
 
-        <tr>
-            <td class="pair">Farih</td>
-            <td>//</td>
-            <td class="pair">Rmaili</td>
-        </tr>
+    <!-- SUMMARY -->
+    <div class="card">
+        <div class="title">SHIFT STATUS</div>
+        <p>👷 Team: 16 Operators</p>
+        <p>⚙️ Load: HIGH</p>
+        <p>📦 Operations: Running</p>
+    </div>
 
-        <tr>
-            <td class="pair">Mandour</td>
-            <td>//</td>
-            <td class="pair">Banhadrya</td>
-        </tr>
+    <!-- BINOMES -->
+    <div class="card full">
 
-        <tr>
-            <td class="pair">Amin</td>
-            <td>//</td>
-            <td class="pair">Ousama</td>
-        </tr>
+        <div class="title">👥 BINÔMES</div>
 
-        <tr>
-            <td class="pair">Anbry</td>
-            <td>//</td>
-            <td class="pair">Asli</td>
-        </tr>
+        <table>
 
-        <tr>
-            <td class="pair">Bentata</td>
-            <td>//</td>
-            <td class="pair">Madak</td>
-        </tr>
+            <tr><td>Farih</td><td>//</td><td>Rmaili</td></tr>
+            <tr><td>Mandour</td><td>//</td><td>Banhadrya</td></tr>
+            <tr><td>Amin</td><td>//</td><td>Ousama</td></tr>
+            <tr><td>Anbry</td><td>//</td><td>Asli</td></tr>
+            <tr><td>Bentata</td><td>//</td><td>Madak</td></tr>
+            <tr><td>Jaaouiani</td><td>//</td><td>Errakhmi</td></tr>
+            <tr><td>Lamnabbah</td><td>//</td><td>Ramadan</td></tr>
+            <tr><td>Zaoui</td><td>//</td><td>Mabsout</td></tr>
 
-        <tr>
-            <td class="pair">Jaaouiani</td>
-            <td>//</td>
-            <td class="pair">Errakhmi</td>
-        </tr>
+        </table>
 
-        <tr>
-            <td class="pair">Lamnabbah</td>
-            <td>//</td>
-            <td class="pair">Ramadan</td>
-        </tr>
+    </div>
 
-        <tr>
-            <td class="pair">Zaoui</td>
-            <td>//</td>
-            <td class="pair">Mabsout</td>
-        </tr>
+    <!-- CONGE -->
+    <div class="card full">
 
-    </table>
+        <div class="title">🏖️ CONGÉ</div>
 
-</div>
-
-<!-- CONGÉ -->
-<div class="section">
-
-    <h2 style="text-align:center;color:var(--green);margin-bottom:15px;">
-        🏖️ Congé
-    </h2>
-
-    <div class="conge">
-
-        <strong>Balhawi</strong><br>
-        (Sorti) Lundi<br>
-        (Entré) Lundi soir
+        <table>
+            <tr>
+                <td>Balhawi</td>
+                <td>Sorti: Lundi</td>
+                <td>Entré: Lundi soir</td>
+            </tr>
+        </table>
 
     </div>
 
