@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Somaport RTG Planning</title>
+
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:'Segoe UI', Tahoma, sans-serif;
+    }
+
+    body{
+        background:#0b1727;
+        overflow:hidden;
+        color:white;
+    }
+
+    .slider{
+        width:100vw;
+        height:100vh;
+        position:relative;
+    }
+
+    .slide{
+        width:100%;
+        height:100%;
+        padding:50px;
+        position:absolute;
+        top:0;
+        left:100%;
+        transition:0.7s ease-in-out;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        background:
+            linear-gradient(135deg,#07111d 0%, #0d2238 40%, #0f5132 100%);
+    }
+
+    .slide.active{
+        left:0;
+    }
+
+    .slide.prev{
+        left:-100%;
+    }
+
+    .glass{
+        width:90%;
+        max-width:1200px;
+        background:rgba(255,255,255,0.06);
+        border:1px solid rgba(255,255,255,0.15);
+        backdrop-filter:blur(12px);
+        border-radius:25px;
+        padding:40px;
+        box-shadow:0 10px 40px rgba(0,0,0,0.4);
+    }
+
+    h1{
+        font-size:48px;
+        color:#4ade80;
+        margin-bottom:20px;
+        text-align:center;
+    }
+
+    h2{
+        font-size:32px;
+        margin-bottom:25px;
+        color:#93c5fd;
+        text-align:center;
+    }
+
+    .subtitle{
+        font-size:22px;
+        text-align:center;
+        color:#d1d5db;
+        margin-bottom:10px;
+    }
+
+    .info-box{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:20px;
+        margin-top:30px;
+    }
+
+    .card{
+        background:rgba(255,255,255,0.05);
+        border-left:5px solid #22c55e;
+        padding:20px;
+        border-radius:15px;
+        font-size:22px;
+    }
+
+    table{
+        width:100%;
+        border-collapse:collapse;
+        margin-top:20px;
+        overflow:hidden;
+        border-radius:15px;
+    }
+
+    th{
+        background:#16a34a;
+        color:white;
+        padding:18px;
+        font-size:22px;
+    }
+
+    td{
+        padding:16px;
+        text-align:center;
+        background:rgba(255,255,255,0.05);
+        border-bottom:1px solid rgba(255,255,255,0.08);
+        font-size:20px;
+    }
+
+    tr:hover td{
+        background:rgba(255,255,255,0.1);
+        transition:0.3s;
+    }
+
+    .nav{
+        position:absolute;
+        bottom:25px;
+        width:100%;
+        display:flex;
+        justify-content:center;
+        gap:20px;
+        z-index:10;
+    }
+
+    .btn{
+        background:#16a34a;
+        color:white;
+        border:none;
+        padding:14px 30px;
+        border-radius:12px;
+        font-size:18px;
+        cursor:pointer;
+        transition:0.3s;
+    }
+
+    .btn:hover{
+        background:#15803d;
+        transform:translateY(-2px);
+    }
+
+    .slide-number{
+        position:absolute;
+        top:20px;
+        left:30px;
+        font-size:18px;
+        color:#cbd5e1;
+    }
+
+    .rtg-badge{
+        margin-top:25px;
+        background:#0f172a;
+        border:2px solid #22c55e;
+        padding:18px 35px;
+        border-radius:20px;
+        font-size:30px;
+        font-weight:bold;
+        color:#4ade80;
+        letter-spacing:2px;
+        box-shadow:0 0 25px rgba(34,197,94,0.4);
+    }
+
+    .footer{
+        margin-top:30px;
+        text-align:center;
+        color:#cbd5e1;
+        font-size:18px;
+    }
+
+    @media(max-width:900px){
+
+        h1{
+            font-size:34px;
+        }
+
+        h2{
+            font-size:24px;
+        }
+
+        .glass{
+            padding:20px;
+        }
+
+        .info-box{
+            grid-template-columns:1fr;
+        }
+
+        th, td{
+            font-size:16px;
+            padding:12px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="slider">
+
+    <!-- Slide 1 -->
+    <section class="slide active">
+        <div class="slide-number">01</div>
+
+        <div class="glass">
+
+            <h1>شركة Somaport - قسم الـ RTG</h1>
+
+            <div class="subtitle">
+                تخطيط العمليات اليومية
+            </div>
+
+            <div class="info-box">
+
+                <div class="card">
+                    📅 <strong>التاريخ:</strong><br>
+                    الأحد 10/05/2026
+                </div>
+
+                <div class="card">
+                    🚜 <strong>الآلة:</strong><br>
+                    RTG N° 8
+                </div>
+
+            </div>
+
+            <div class="rtg-badge">
+                SOMAPORT RTG 8
+            </div>
+
+            <div class="footer">
+                Professional Interactive Planning Dashboard
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Slide 2 -->
+    <section class="slide">
+        <div class="slide-number">02</div>
+
+        <div class="glass">
+
+            <h2>👥 قائمة الشركاء (Les Binômes)</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>الشريك الأول</th>
+                        <th>الشريك الثاني</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Farih</td>
+                        <td>Rmaili</td>
+                    </tr>
+
+                    <tr>
+                        <td>Mandour</td>
+                        <td>Banhadrya</td>
+                    </tr>
+
+                    <tr>
+                        <td>Amin</td>
+                        <td>Ousama</td>
+                    </tr>
+
+                    <tr>
+                        <td>Anbry</td>
+                        <td>Asli</td>
+                    </tr>
+
+                    <tr>
+                        <td>Bentata</td>
+                        <td>Madak</td>
+                    </tr>
+
+                    <tr>
+                        <td>Jaaouiani</td>
+                        <td>Errakhmi</td>
+                    </tr>
+
+                    <tr>
+                        <td>Lamnabbah</td>
+                        <td>Ramadan</td>
+                    </tr>
+
+                    <tr>
+                        <td>Zaoui</td>
+                        <td>Mabsout</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </section>
+
+    <!-- Slide 3 -->
+    <section class="slide">
+        <div class="slide-number">03</div>
+
+        <div class="glass">
+
+            <h2>🏖️ وضعية الرخص (Congés)</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>الإسم</th>
+                        <th>الخروج</th>
+                        <th>الدخول</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Balhawi</td>
+                        <td>الإثنين</td>
+                        <td>الإثنين بليل</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="footer" style="margin-top:40px;">
+                Somaport Operations Planning • RTG Department
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Navigation -->
+    <div class="nav">
+        <button class="btn" onclick="prevSlide()">⮜ السابق</button>
+        <button class="btn" onclick="nextSlide()">التالي ⮞</button>
+    </div>
+
+</div>
+
+<script>
+
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+
+    function showSlide(index){
+
+        slides.forEach((slide,i)=>{
+
+            slide.classList.remove('active','prev');
+
+            if(i === index){
+                slide.classList.add('active');
+            }
+            else if(i < index){
+                slide.classList.add('prev');
+            }
+        });
+    }
+
+    function nextSlide(){
+
+        currentSlide++;
+
+        if(currentSlide >= slides.length){
+            currentSlide = 0;
+        }
+
+        showSlide(currentSlide);
+    }
+
+    function prevSlide(){
+
+        currentSlide--;
+
+        if(currentSlide < 0){
+            currentSlide = slides.length - 1;
+        }
+
+        showSlide(currentSlide);
+    }
+
+    // Keyboard Navigation
+    document.addEventListener('keydown', function(e){
+
+        if(e.key === 'ArrowRight'){
+            nextSlide();
+        }
+
+        if(e.key === 'ArrowLeft'){
+            prevSlide();
+        }
+    });
+
+    // Auto Slide Every 8 Seconds
+    setInterval(()=>{
+        nextSlide();
+    },8000);
+
+</script>
+
+</body>
+</html>
