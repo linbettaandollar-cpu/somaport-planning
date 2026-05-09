@@ -1,207 +1,787 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Somaport Pro Planning</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #00ffb3;
-            --accent: #2563eb;
-            --dark: #060b13;
-            --glass: rgba(255, 255, 255, 0.07);
-        }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-        body {
-            font-family: 'Cairo', sans-serif;
-            background: var(--dark);
-            color: white;
-            overflow: hidden; /* باش نتحكمو فالسكرول بالصفحات */
-        }
+<title>Somaport RTG Planning</title>
 
-        /* حاوية الصفحات */
-        .slider {
-            display: flex;
-            width: 300vw; /* 3 صفحات */
-            height: 100vh;
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
-        .page {
-            width: 100vw;
-            height: 100vh;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            background: radial-gradient(circle at center, rgba(0, 255, 179, 0.05) 0%, transparent 70%);
-        }
+<style>
 
-        /* بطاقة المحتوى */
-        .card {
-            width: 100%;
-            max-width: 400px;
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            padding: 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
+:root{
+    --green:#00ff9d;
+    --green2:#00d084;
+    --navy:#07111f;
+    --navy2:#0d1e36;
+    --white:#ffffff;
+    --glass:rgba(255,255,255,0.08);
+}
 
-        .page-title {
-            font-size: 24px;
-            font-weight: 900;
-            margin-bottom: 20px;
-            text-align: center;
-            color: var(--primary);
-            border-bottom: 1px solid rgba(0, 255, 179, 0.3);
-            padding-bottom: 10px;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        /* تنسيق الجداول */
-        table { width: 100%; border-collapse: collapse; }
-        th { font-size: 13px; color: #aaa; padding: 10px; text-align: center; }
-        td { font-size: 16px; padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); font-weight: 600; }
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:'Cairo',sans-serif;
+    background:
+    radial-gradient(circle at top right,#00ff9d20,transparent 25%),
+    radial-gradient(circle at bottom left,#00d08420,transparent 25%),
+    linear-gradient(135deg,#020814,#07111f,#0d1e36);
+    color:white;
+}
 
-        /* أزرار التحكم */
-        .controls {
-            position: fixed;
-            bottom: 30px;
-            display: flex;
-            gap: 20px;
-            z-index: 100;
-        }
+/* Animated Background */
 
-        .nav-btn {
-            background: var(--primary);
-            color: var(--dark);
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 255, 179, 0.3);
-        }
+.bg-grid{
+    position:fixed;
+    inset:0;
+    background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size:40px 40px;
+    z-index:0;
+}
 
-        .dots {
-            position: fixed;
-            top: 40px;
-            display: flex;
-            gap: 10px;
-        }
+.glow{
+    position:absolute;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:linear-gradient(45deg,#00ff9d33,#00d08411);
+    filter:blur(120px);
+}
 
-        .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.2);
-            transition: 0.3s;
-        }
+.glow1{
+    top:-150px;
+    right:-150px;
+}
 
-        .dot.active { width: 30px; border-radius: 10px; background: var(--primary); }
+.glow2{
+    bottom:-150px;
+    left:-150px;
+}
 
-        .rtg-icon { font-size: 80px; margin-bottom: 20px; filter: drop-shadow(0 0 10px var(--primary)); }
-    </style>
+/* Slider */
+
+.slider{
+    width:100%;
+    height:100%;
+    position:relative;
+    z-index:2;
+}
+
+.slide{
+    position:absolute;
+    inset:0;
+    opacity:0;
+    transform:translateX(60px) scale(.96);
+    transition:1s ease;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    pointer-events:none;
+}
+
+.slide.active{
+    opacity:1;
+    transform:translateX(0) scale(1);
+    pointer-events:auto;
+}
+
+.card{
+    width:100%;
+    max-width:1400px;
+    height:92vh;
+    background:rgba(255,255,255,0.06);
+    backdrop-filter:blur(22px);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:35px;
+    overflow:hidden;
+    position:relative;
+    box-shadow:
+    0 0 60px rgba(0,0,0,0.45),
+    inset 0 0 1px rgba(255,255,255,0.25);
+}
+
+/* Header */
+
+.header{
+    width:100%;
+    padding:25px 35px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.brand-icon{
+    width:60px;
+    height:60px;
+    border-radius:18px;
+    background:linear-gradient(135deg,var(--green),var(--green2));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    color:#07111f;
+    font-weight:900;
+    box-shadow:0 0 25px #00ff9d55;
+}
+
+.brand-text h1{
+    font-size:28px;
+    font-weight:900;
+}
+
+.brand-text p{
+    color:#bfd3ea;
+    font-size:14px;
+}
+
+.status{
+    padding:12px 22px;
+    border-radius:18px;
+    background:#00ff9d15;
+    border:1px solid #00ff9d55;
+    color:var(--green);
+    font-weight:700;
+    font-size:15px;
+}
+
+/* HERO */
+
+.hero{
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:30px;
+    padding:35px;
+    height:calc(100% - 95px);
+}
+
+/* Left */
+
+.left{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.title{
+    font-size:72px;
+    line-height:1.05;
+    font-weight:900;
+    margin-bottom:20px;
+}
+
+.title span{
+    background:linear-gradient(90deg,var(--green),#ffffff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.desc{
+    font-size:19px;
+    color:#d6e3f5;
+    line-height:2;
+    margin-bottom:35px;
+}
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.info{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:24px;
+    padding:24px;
+    transition:.4s;
+}
+
+.info:hover{
+    transform:translateY(-8px);
+    border-color:#00ff9d66;
+    box-shadow:0 15px 35px #00ff9d18;
+}
+
+.info small{
+    display:block;
+    color:#a6bdd7;
+    margin-bottom:10px;
+    font-size:14px;
+}
+
+.info strong{
+    font-size:28px;
+}
+
+/* Right */
+
+.right{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+}
+
+/* RTG MACHINE */
+
+.rtg-box{
+    width:100%;
+    height:100%;
+    border-radius:35px;
+    background:
+    linear-gradient(145deg,
+    rgba(255,255,255,0.08),
+    rgba(255,255,255,0.03));
+    border:1px solid rgba(255,255,255,0.08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.rtg-box::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+    linear-gradient(90deg,
+    transparent,
+    rgba(255,255,255,0.12),
+    transparent);
+    animation:shine 5s linear infinite;
+}
+
+@keyframes shine{
+    from{
+        transform:translateX(-100%);
+    }
+    to{
+        transform:translateX(100%);
+    }
+}
+
+.rtg-img{
+    width:95%;
+    max-width:600px;
+    filter:
+    drop-shadow(0 0 25px rgba(0,255,157,0.45))
+    drop-shadow(0 0 60px rgba(0,255,157,0.15));
+    animation:float 5s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-12px);
+    }
+}
+
+/* Slides */
+
+.content{
+    padding:35px;
+}
+
+.slide-title{
+    font-size:48px;
+    margin-bottom:30px;
+    font-weight:900;
+}
+
+.slide-title span{
+    color:var(--green);
+}
+
+.table-box{
+    width:100%;
+    overflow:auto;
+    border-radius:30px;
+    border:1px solid rgba(255,255,255,0.08);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:linear-gradient(90deg,var(--green2),var(--green));
+    color:#07111f;
+    padding:24px;
+    font-size:20px;
+    font-weight:900;
+}
+
+td{
+    padding:22px;
+    text-align:center;
+    background:rgba(255,255,255,0.04);
+    border-bottom:1px solid rgba(255,255,255,0.05);
+    font-size:20px;
+    transition:.3s;
+}
+
+tr:hover td{
+    background:rgba(255,255,255,0.08);
+}
+
+/* Nav */
+
+.nav{
+    position:fixed;
+    bottom:25px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:14px;
+    z-index:20;
+}
+
+.nav button{
+    width:58px;
+    height:58px;
+    border:none;
+    border-radius:50%;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(12px);
+    color:white;
+    font-size:22px;
+    cursor:pointer;
+    transition:.35s;
+    border:1px solid rgba(255,255,255,0.1);
+}
+
+.nav button:hover{
+    background:linear-gradient(135deg,var(--green),var(--green2));
+    color:#07111f;
+    transform:translateY(-5px);
+}
+
+/* Pagination */
+
+.pagination{
+    position:fixed;
+    top:25px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:10px;
+    z-index:20;
+}
+
+.dot{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.25);
+    transition:.3s;
+}
+
+.dot.active{
+    width:40px;
+    border-radius:20px;
+    background:linear-gradient(90deg,var(--green2),var(--green));
+}
+
+/* Footer */
+
+.footer{
+    position:absolute;
+    bottom:20px;
+    left:35px;
+    color:#abc1dc;
+    font-size:14px;
+}
+
+/* MOBILE */
+
+@media(max-width:950px){
+
+    body{
+        overflow:auto;
+    }
+
+    .card{
+        height:auto;
+        min-height:95vh;
+    }
+
+    .hero{
+        grid-template-columns:1fr;
+        padding:20px;
+    }
+
+    .title{
+        font-size:42px;
+    }
+
+    .slide-title{
+        font-size:32px;
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+
+    .header{
+        flex-direction:column;
+        gap:15px;
+        align-items:flex-start;
+    }
+
+    .rtg-box{
+        min-height:320px;
+    }
+
+    td,th{
+        font-size:16px;
+        padding:16px;
+    }
+
+}
+
+</style>
 </head>
+
 <body>
 
-    <div class="dots" id="dots">
-        <div class="dot active"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-    </div>
+<div class="bg-grid"></div>
 
-    <div class="slider" id="slider">
-        
-        <!-- الصفحة 1: الواجهة -->
-        <section class="page">
-            <div class="rtg-icon">🚜</div>
-            <div class="card">
-                <h2 class="page-title">SOMAPORT RTG 8</h2>
-                <div style="text-align: center;">
-                    <p style="font-size: 18px; color: #ddd;">اليوم: الأحد</p>
-                    <p style="font-size: 22px; font-weight: 900; margin: 10px 0;">10 ماي 2026</p>
-                    <div style="margin-top: 20px; padding: 10px; background: rgba(0,255,179,0.1); border-radius: 15px; color: var(--primary);">
-                        الوضعية: تخطيط العمليات
+<div class="glow glow1"></div>
+<div class="glow glow2"></div>
+
+<!-- Pagination -->
+
+<div class="pagination">
+    <div class="dot active"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+</div>
+
+<div class="slider">
+
+    <!-- SLIDE 1 -->
+
+    <section class="slide active">
+
+        <div class="card">
+
+            <div class="header">
+
+                <div class="brand">
+
+                    <div class="brand-icon">
+                        🚜
                     </div>
+
+                    <div class="brand-text">
+                        <h1>شركة Somaport</h1>
+                        <p>قسم عمليات RTG</p>
+                    </div>
+
                 </div>
-            </div>
-        </section>
 
-        <!-- الصفحة 2: الشركاء -->
-        <section class="page">
-            <div class="card">
-                <h2 class="page-title">👥 الشركاء (Binômes)</h2>
-                <table>
-                    <thead><tr><th>الشريك 1</th><th>الشريك 2</th></tr></thead>
-                    <tbody>
-                        <tr><td>Farih</td><td>Rmaili</td></tr>
-                        <tr><td>Mandour</td><td>Banhadrya</td></tr>
-                        <tr><td>Amin</td><td>Ousama</td></tr>
-                        <tr><td>Anbry</td><td>Asli</td></tr>
-                        <tr><td>Bentata</td><td>Madak</td></tr>
-                        <tr><td>Jaaouiani</td><td>Errakhmi</td></tr>
-                        <tr><td>Lamnabbah</td><td>Ramadan</td></tr>
-                        <tr><td>Zaoui</td><td>Mabsout</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- الصفحة 3: الرخص -->
-        <section class="page">
-            <div class="card">
-                <h2 class="page-title">🏖️ الرخص (Congé)</h2>
-                <div style="padding: 20px; background: rgba(255,255,255,0.03); border-radius: 20px; border: 1px dashed var(--primary);">
-                    <p style="font-size: 20px; font-weight: 900; color: var(--primary);">Balhawi</p>
-                    <hr style="margin: 15px 0; opacity: 0.1;">
-                    <p>خروج: <span style="color: #ff4444;">الإثنين</span></p>
-                    <p>رجوع: <span style="color: var(--primary);">الإثنين (ليلاً)</span></p>
+                <div class="status">
+                    RTG Planning Dashboard
                 </div>
+
             </div>
-        </section>
 
-    </div>
+            <div class="hero">
 
-    <div class="controls">
-        <button class="nav-btn" onclick="move(1)">❯</button>
-        <button class="nav-btn" onclick="move(-1)">❮</button>
-    </div>
+                <div class="left">
 
-    <script>
-        let index = 0;
-        const slider = document.getElementById('slider');
-        const dots = document.querySelectorAll('.dot');
+                    <div class="title">
+                        تخطيط <span>RTG N° 8</span><br>
+                        بطريقة عصرية
+                    </div>
 
-        function move(dir) {
-            index += dir;
-            if (index > 2) index = 0;
-            if (index < 0) index = 2;
-            
-            slider.style.transform = `translateX(${index * 100}vw)`;
-            
-            dots.forEach(d => d.classList.remove('active'));
+                    <div class="desc">
+                        لوحة احترافية حديثة خاصة بتنظيم عمليات قسم الـ RTG داخل شركة Somaport مع تصميم متجاوب يشتغل بشكل ممتاز على الهاتف والحاسوب.
+                    </div>
+
+                    <div class="info-grid">
+
+                        <div class="info">
+                            <small>📅 التاريخ</small>
+                            <strong>10/05/2026</strong>
+                        </div>
+
+                        <div class="info">
+                            <small>🚜 الآلة</small>
+                            <strong>RTG N° 8</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="right">
+
+                    <div class="rtg-box">
+
+                        <!-- RTG IMAGE -->
+
+                        <img
+                        class="rtg-img"
+                        src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Container_crane_at_port.png"
+                        alt="RTG Crane">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="footer">
+                SOMAPORT • MODERN RTG SYSTEM
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- SLIDE 2 -->
+
+    <section class="slide">
+
+        <div class="card">
+
+            <div class="content">
+
+                <div class="slide-title">
+                    👥 قائمة <span>الشركاء</span>
+                </div>
+
+                <div class="table-box">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>الشريك الأول</th>
+                                <th>الشريك الثاني</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>Farih</td>
+                                <td>Rmaili</td>
+                            </tr>
+
+                            <tr>
+                                <td>Mandour</td>
+                                <td>Banhadrya</td>
+                            </tr>
+
+                            <tr>
+                                <td>Amin</td>
+                                <td>Ousama</td>
+                            </tr>
+
+                            <tr>
+                                <td>Anbry</td>
+                                <td>Asli</td>
+                            </tr>
+
+                            <tr>
+                                <td>Bentata</td>
+                                <td>Madak</td>
+                            </tr>
+
+                            <tr>
+                                <td>Jaaouiani</td>
+                                <td>Errakhmi</td>
+                            </tr>
+
+                            <tr>
+                                <td>Lamnabbah</td>
+                                <td>Ramadan</td>
+                            </tr>
+
+                            <tr>
+                                <td>Zaoui</td>
+                                <td>Mabsout</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- SLIDE 3 -->
+
+    <section class="slide">
+
+        <div class="card">
+
+            <div class="content">
+
+                <div class="slide-title">
+                    🏖️ وضعية <span>الرخص</span>
+                </div>
+
+                <div class="table-box">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>الإسم</th>
+                                <th>الخروج</th>
+                                <th>الدخول</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>Balhawi</td>
+                                <td>الإثنين</td>
+                                <td>الإثنين بليل</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<!-- NAV -->
+
+<div class="nav">
+    <button onclick="prevSlide()">❮</button>
+    <button onclick="nextSlide()">❯</button>
+</div>
+
+<script>
+
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.dot');
+
+let current = 0;
+
+function updateSlides(){
+
+    slides.forEach((slide,index)=>{
+
+        slide.classList.remove('active');
+        dots[index].classList.remove('active');
+
+        if(index === current){
+            slide.classList.add('active');
             dots[index].classList.add('active');
         }
 
-        // إضافة دعم لقلب الصفحات باللمس (Swipe)
-        let touchstartX = 0;
-        let touchendX = 0;
-        
-        document.addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
-        document.addEventListener('touchend', e => {
-            touchendX = e.changedTouches[0].screenX;
-            if (touchstartX - touchendX > 50) move(1);
-            if (touchendX - touchstartX > 50) move(-1);
-        });
-    </script>
+    });
+
+}
+
+function nextSlide(){
+
+    current++;
+
+    if(current >= slides.length){
+        current = 0;
+    }
+
+    updateSlides();
+}
+
+function prevSlide(){
+
+    current--;
+
+    if(current < 0){
+        current = slides.length - 1;
+    }
+
+    updateSlides();
+}
+
+/* Keyboard */
+
+document.addEventListener('keydown',(e)=>{
+
+    if(e.key === 'ArrowRight'){
+        nextSlide();
+    }
+
+    if(e.key === 'ArrowLeft'){
+        prevSlide();
+    }
+
+});
+
+/* Swipe Mobile */
+
+let touchStartX = 0;
+let touchEndX = 0;
+
+document.addEventListener('touchstart',e=>{
+    touchStartX = e.changedTouches[0].screenX;
+});
+
+document.addEventListener('touchend',e=>{
+
+    touchEndX = e.changedTouches[0].screenX;
+
+    if(touchEndX < touchStartX - 50){
+        nextSlide();
+    }
+
+    if(touchEndX > touchStartX + 50){
+        prevSlide();
+    }
+
+});
+
+/* Auto Slide */
+
+setInterval(()=>{
+    nextSlide();
+},9000);
+
+</script>
+
 </body>
 </html>
