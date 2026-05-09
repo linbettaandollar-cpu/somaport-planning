@@ -1,230 +1,193 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Somaport RTG Premium</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RTG Planning - Fullscreen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=Outfit:wght@900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #003366;
-            --accent: #ff6600;
-            --bg: #f8fafc;
-            --glass: rgba(255, 255, 255, 0.9);
+        :root { --blue: #003366; --orange: #ff6600; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            background: #000; 
+            font-family: 'Cairo', sans-serif; 
+            overflow: hidden; /* منع السكرول العادي */
         }
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg);
-            background-image: radial-gradient(at 0% 0%, rgba(0, 51, 102, 0.05) 0px, transparent 50%), 
-                              radial-gradient(at 100% 100%, rgba(255, 102, 0, 0.05) 0px, transparent 50%);
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
+        /* حاوية السلايدر */
+        .slider-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory; /* نظام الصفحات */
+            scroll-behavior: smooth;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
+        .slide {
+            height: 100vh;
+            width: 100%;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 40px;
+            background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+            border-bottom: 2px solid rgba(0,0,0,0.1);
         }
 
-        .header {
+        /* لوغو SOMAPORT ثابت فكل صفحة */
+        .page-header {
+            position: absolute;
+            top: 40px;
             text-align: center;
-            padding: 40px 20px;
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.03);
-            margin-bottom: 40px;
-            border: 1px solid rgba(255,255,255,0.7);
         }
 
         .logo {
             font-family: 'Outfit', sans-serif;
-            font-size: 3rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), #0055aa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 0;
+            font-size: 2.8rem;
+            color: var(--blue);
             letter-spacing: -1px;
         }
 
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #ecfdf5;
-            color: #059669;
-            padding: 6px 16px;
-            border-radius: 100px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: #10b981;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; }
-        }
-
-        .date-text {
-            font-size: 1.1rem;
-            color: #64748b;
-            margin-top: 10px;
-            font-weight: 600;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-        }
-
-        .card {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 28px;
-            border: 1px solid rgba(255,255,255,0.6);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.02);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.08);
-            border-color: var(--primary);
-        }
-
-        .binome-label {
-            font-family: 'Outfit', sans-serif;
+        .binome-title {
+            font-size: 2.5rem;
+            color: var(--orange);
+            font-weight: 900;
+            margin-bottom: 30px;
             text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            color: var(--accent);
-            font-weight: 800;
-            margin-bottom: 15px;
-            display: block;
         }
 
-        .names-wrapper {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .name-box {
-            flex: 1;
+        .names-card {
+            background: white;
+            padding: 40px 20px;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            border-top: 10px solid var(--blue);
         }
 
         .p-name {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: #1e293b;
             display: block;
+            font-size: 2.2rem;
+            color: #1e293b;
+            margin: 15px 0;
+            font-weight: 800;
         }
 
-        .vs-divider {
-            padding: 0 15px;
-            color: #cbd5e1;
-            font-weight: 300;
+        .divider {
+            height: 2px;
+            background: #e2e8f0;
+            width: 60%;
+            margin: 0 auto;
+        }
+
+        /* ستايل خاص بالعطلة */
+        .conge-slide {
+            background: linear-gradient(135deg, #fff1f2 0%, #fff 100%);
+        }
+        .conge-slide .binome-title { color: #e11d48; }
+        .conge-card { border-top-color: #e11d48; }
+        .arabic-info {
+            font-size: 1.5rem;
+            color: #475569;
+            direction: rtl;
+            line-height: 1.8;
+        }
+
+        #loader {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
             font-size: 1.5rem;
         }
 
-        .conge {
-            background: linear-gradient(135deg, #fff1f2 0%, #fff 100%);
-            border-left: 6px solid #f43f5e;
+        .scroll-hint {
+            position: absolute;
+            bottom: 20px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            animation: bounce 2s infinite;
         }
 
-        .conge .binome-label { color: #f43f5e; }
-
-        #loader {
-            text-align: center;
-            padding: 100px;
-            font-weight: 800;
-            color: var(--primary);
-            letter-spacing: 2px;
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            .logo { font-size: 2.2rem; }
-            .grid { grid-template-columns: 1fr; }
-        }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header">
-        <div class="status-badge">
-            <div class="status-dot"></div>
-            SYSTEM LIVE UPDATE
-        </div>
-        <h1 class="logo">SOMAPORT</h1>
-        <div class="date-text" id="current-date">...</div>
-    </div>
+    <div id="loader">جاري التحميل...</div>
+    <div class="slider-container" id="slider"></div>
 
-    <div id="loader">L O A D I N G . . .</div>
-    <div class="grid" id="main-grid"></div>
-</div>
+    <script>
+        const apiURL = "https://api.sheetbest.com/sheets/b6e3ae1f-2190-406c-8264-091975545af0";
 
-<script>
-    const SHEET_URL = "https://api.sheetbest.com/sheets/b6e3ae1f-2190-406c-8264-091975545af0";
+        async function loadPlanning() {
+            try {
+                const res = await fetch(apiURL);
+                const data = await res.json();
+                const slider = document.getElementById('slider');
+                document.getElementById('loader').style.display = 'none';
 
-    // Set Date
-    const dateOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-    document.getElementById('current-date').innerText = new Date().toLocaleDateString('fr-FR', dateOptions);
+                data.forEach((item, index) => {
+                    const clean = (key) => {
+                        const found = Object.keys(item).find(k => k.trim() === key);
+                        return found ? item[found] : '';
+                    };
 
-    async function fetchPlanning() {
-        try {
-            const response = await fetch(SHEET_URL);
-            const data = await response.json();
-            const grid = document.getElementById('main-grid');
-            document.getElementById('loader').style.display = 'none';
+                    const bNumber = clean('binome_number');
+                    const p1 = clean('partner1');
+                    const p2 = clean('partner2');
 
-            data.forEach(row => {
-                const clean = (key) => {
-                    const k = Object.keys(row).find(k => k.trim() === key);
-                    return k ? row[k] : '';
-                };
+                    if(!bNumber && !p1) return;
 
-                const binome = clean('binome_number');
-                const p1 = clean('partner1');
-                const p2 = clean('partner2');
+                    const isConge = bNumber.toUpperCase().includes('CONGÉ');
+                    
+                    let content = '';
+                    if(isConge) {
+                        // ترجمة معلومات العطلة للعربية
+                        const arabicP2 = p2.replace('In:', 'دخول:').replace('Out:', 'خروج:').replace('Lundi', 'الإثنين');
+                        content = `
+                            <div class="names-card conge-card">
+                                <span class="p-name">${p1}</span>
+                                <div class="divider"></div>
+                                <div class="arabic-info" style="margin-top:20px;">
+                                    ${arabicP2}
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        content = `
+                            <div class="names-card">
+                                <span class="p-name">${p1}</span>
+                                <div class="divider"></div>
+                                <span class="p-name">${p2}</span>
+                            </div>
+                        `;
+                    }
 
-                if(!binome && !p1) return;
-
-                const isConge = binome.toLowerCase().includes('congé');
-                
-                const cardHtml = `
-                    <div class="card ${isConge ? 'conge' : ''}">
-                        <span class="binome-label">${binome}</span>
-                        <div class="names-wrapper">
-                            <div class="name-box"><span class="p-name">${p1}</span></div>
-                            ${p2 ? `<div class="vs-divider">/</div><div class="name-box"><span class="p-name">${p2}</span></div>` : ''}
+                    const slideHtml = `
+                        <div class="slide ${isConge ? 'conge-slide' : ''}">
+                            <div class="page-header">
+                                <h1 class="logo">SOMAPORT</h1>
+                            </div>
+                            <h2 class="binome-title">${bNumber}</h2>
+                            ${content}
+                            <div class="scroll-hint">اسحب للأعلى لرؤية المزيد ↓</div>
                         </div>
-                    </div>
-                `;
-                grid.innerHTML += cardHtml;
-            });
-        } catch (e) {
-            document.getElementById('loader').innerText = "❌ CONNECTION ERROR";
+                    `;
+                    slider.innerHTML += slideHtml;
+                });
+            } catch (e) {
+                document.getElementById('loader').innerText = "خطأ في الاتصال";
+            }
         }
-    }
 
-    fetchPlanning();
-</script>
-
+        loadPlanning();
+    </script>
 </body>
 </html>
