@@ -3,16 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Somaport RTG System</title>
+
+<title>Somaport SAP RTG System</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 
 :root{
     --green:#00ff9d;
     --navy:#07111f;
-    --glass:rgba(255,255,255,0.08);
+    --dark:#050b16;
+    --glass:rgba(255,255,255,0.06);
 }
 
 *{
@@ -23,9 +27,10 @@
 }
 
 body{
-    background:linear-gradient(135deg,#050b16,#07111f,#0d1e36);
+    background:linear-gradient(135deg,#020813,#07111f,#0d1e36);
     color:white;
     min-height:100vh;
+    overflow-x:hidden;
 }
 
 /* LOGIN */
@@ -37,27 +42,23 @@ body{
     justify-content:center;
     align-items:center;
     background:radial-gradient(circle,#00ff9d22,#000);
+    z-index:999;
 }
 
 .login-box{
     width:90%;
-    max-width:400px;
+    max-width:420px;
     padding:30px;
+    border-radius:25px;
     background:rgba(255,255,255,0.06);
     border:1px solid rgba(255,255,255,0.1);
-    border-radius:25px;
-    backdrop-filter:blur(15px);
-    text-align:center;
+    backdrop-filter:blur(20px);
 }
 
-.login-box h2{
-    margin-bottom:20px;
-}
-
-input{
+input,select{
     width:100%;
-    padding:15px;
-    margin:10px 0;
+    padding:14px;
+    margin-top:10px;
     border-radius:12px;
     border:none;
     outline:none;
@@ -65,7 +66,8 @@ input{
 
 button{
     width:100%;
-    padding:15px;
+    padding:14px;
+    margin-top:15px;
     background:var(--green);
     border:none;
     border-radius:12px;
@@ -77,35 +79,56 @@ button{
 
 .dashboard{
     display:none;
-    padding:20px;
 }
 
-.header{
+/* TOP BAR */
+
+.topbar{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:15px;
+    padding:15px 20px;
     background:rgba(255,255,255,0.05);
-    border-radius:15px;
+    backdrop-filter:blur(10px);
 }
+
+.role{
+    padding:6px 15px;
+    border-radius:20px;
+    background:#00ff9d22;
+    color:var(--green);
+}
+
+/* GRID */
 
 .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
     gap:15px;
-    margin-top:20px;
+    padding:20px;
 }
 
 .card{
-    background:rgba(255,255,255,0.06);
-    padding:20px;
-    border-radius:20px;
+    background:rgba(255,255,255,0.05);
     border:1px solid rgba(255,255,255,0.08);
+    border-radius:20px;
+    padding:20px;
 }
 
-h3{
-    margin-bottom:10px;
-    color:var(--green);
+/* RTG STATUS */
+
+.status{
+    display:flex;
+    justify-content:space-between;
+    margin-top:10px;
+}
+
+.dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 10px var(--green);
 }
 
 /* TABLE */
@@ -118,30 +141,23 @@ table{
 
 td,th{
     padding:10px;
-    text-align:center;
     border-bottom:1px solid rgba(255,255,255,0.1);
+    text-align:center;
 }
 
-.action{
-    cursor:pointer;
-    color:red;
-}
+/* CHART */
 
-/* ADD */
-
-.add{
-    display:flex;
-    gap:10px;
+canvas{
     margin-top:10px;
 }
 
-.add input{
-    flex:1;
-}
+/* MOBILE */
 
-.add button{
-    width:auto;
-    padding:10px 15px;
+@media(max-width:768px){
+    .topbar{
+        flex-direction:column;
+        gap:10px;
+    }
 }
 
 </style>
@@ -151,57 +167,88 @@ td,th{
 
 <!-- LOGIN -->
 <div class="login" id="login">
+
     <div class="login-box">
-        <h2>🔐 Somaport RTG Login</h2>
-        <input type="text" id="user" placeholder="Username">
-        <input type="password" id="pass" placeholder="Password">
+
+        <h2>🚢 SOMAPORT SAP LOGIN</h2>
+
+        <input id="user" placeholder="Username">
+        <input id="pass" type="password" placeholder="Password">
+
+        <select id="role">
+            <option value="operator">Operator RTG</option>
+            <option value="supervisor">Supervisor</option>
+            <option value="admin">Admin</option>
+        </select>
+
         <button onclick="login()">Enter System</button>
+
     </div>
+
 </div>
 
 <!-- DASHBOARD -->
 <div class="dashboard" id="dash">
 
-    <div class="header">
-        <h2>🚜 RTG Operations System</h2>
-        <button onclick="logout()">Logout</button>
+    <div class="topbar">
+
+        <h2>🚜 RTG PORT CONTROL SYSTEM</h2>
+
+        <div class="role" id="roleBox">Operator</div>
+
     </div>
 
     <div class="grid">
 
+        <!-- RTG STATUS -->
         <div class="card">
-            <h3>📅 Date</h3>
-            <p>10/05/2026</p>
-        </div>
 
-        <div class="card">
-            <h3>🚜 Machine</h3>
-            <p>RTG N° 8</p>
-        </div>
+            <h3>🚜 RTG STATUS</h3>
 
-        <div class="card">
-            <h3>👥 Binômes</h3>
-
-            <div class="add">
-                <input id="b1" placeholder="A">
-                <input id="b2" placeholder="B">
-                <button onclick="addPair()">+</button>
+            <div class="status">
+                <span>RTG 8</span>
+                <div class="dot"></div>
             </div>
 
-            <table id="table"></table>
+            <div class="status">
+                <span>Fuel</span>
+                <span>87%</span>
+            </div>
+
+            <div class="status">
+                <span>Work Load</span>
+                <span>High</span>
+            </div>
 
         </div>
 
+        <!-- OPERATIONS -->
         <div class="card">
-            <h3>🏖️ Congés</h3>
 
-            <input id="name" placeholder="Nom">
-            <input id="leave" placeholder="Sortie">
-            <input id="back" placeholder="Entrée">
+            <h3>⚙️ Operations</h3>
 
-            <button onclick="addLeave()">Ajouter</button>
+            <table id="ops"></table>
 
-            <table id="leaveTable"></table>
+            <input id="task" placeholder="New Task">
+            <button onclick="addTask()">Add Operation</button>
+
+        </div>
+
+        <!-- BINÔMES -->
+        <div class="card">
+
+            <h3>👥 Binômes</h3>
+
+            <table id="pairs"></table>
+
+        </div>
+
+        <!-- CHART -->
+        <div class="card">
+
+            <h3>📊 Productivity</h3>
+
+            <canvas id="chart"></canvas>
 
         </div>
 
@@ -211,71 +258,81 @@ td,th{
 
 <script>
 
-let pairs = JSON.parse(localStorage.getItem("pairs") || "[]");
-let leaves = JSON.parse(localStorage.getItem("leaves") || "[]");
+let tasks = [];
+let pairs = [
+    ["Farih","Rmaili"],
+    ["Mandour","Banhadrya"],
+    ["Amin","Ousama"],
+    ["Anbry","Asli"]
+];
 
 function login(){
+
     let u = document.getElementById("user").value;
     let p = document.getElementById("pass").value;
+    let r = document.getElementById("role").value;
 
     if(u && p){
+
         document.getElementById("login").style.display="none";
         document.getElementById("dash").style.display="block";
+
+        document.getElementById("roleBox").innerText = r;
+
         render();
-    }else{
-        alert("دخل المعلومات");
+
     }
+
 }
 
-function logout(){
-    location.reload();
-}
-
-function addPair(){
-    let a = document.getElementById("b1").value;
-    let b = document.getElementById("b2").value;
-
-    if(a && b){
-        pairs.push({a,b});
-        localStorage.setItem("pairs",JSON.stringify(pairs));
+function addTask(){
+    let t = document.getElementById("task").value;
+    if(t){
+        tasks.push(t);
         render();
     }
-}
-
-function addLeave(){
-    let n = document.getElementById("name").value;
-    let s = document.getElementById("leave").value;
-    let e = document.getElementById("back").value;
-
-    leaves.push({n,s,e});
-    localStorage.setItem("leaves",JSON.stringify(leaves));
-    render();
 }
 
 function render(){
 
-    let t = "<tr><th>A</th><th>B</th></tr>";
+    // OPS
+    let o = "<tr><th>Task</th></tr>";
+    tasks.forEach(t=>{
+        o += `<tr><td>${t}</td></tr>`;
+    });
+    document.getElementById("ops").innerHTML = o;
 
-    pairs.forEach((p,i)=>{
-        t += `<tr>
-            <td>${p.a}</td>
-            <td>${p.b}</td>
-        </tr>`;
+    // PAIRS
+    let p = "<tr><th>A</th><th>B</th></tr>";
+    pairs.forEach(x=>{
+        p += `<tr><td>${x[0]}</td><td>${x[1]}</td></tr>`;
+    });
+    document.getElementById("pairs").innerHTML = p;
+
+    drawChart();
+
+}
+
+function drawChart(){
+
+    new Chart(document.getElementById("chart"),{
+        type:"bar",
+        data:{
+            labels:["Shift 1","Shift 2","Shift 3","Shift 4"],
+            datasets:[{
+                label:"RTG Productivity",
+                data:[12,19,8,15],
+                backgroundColor:"#00ff9d"
+            }]
+        },
+        options:{
+            responsive:true,
+            plugins:{
+                legend:{display:false}
+            }
+        }
     });
 
-    document.getElementById("table").innerHTML = t;
-
-    let l = "<tr><th>Nom</th><th>Sortie</th><th>Entrée</th></tr>";
-
-    leaves.forEach(v=>{
-        l += `<tr>
-            <td>${v.n}</td>
-            <td>${v.s}</td>
-            <td>${v.e}</td>
-        </tr>`;
-    });
-
-    document.getElementById("leaveTable").innerHTML = l;
 }
 
 </script>
