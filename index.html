@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Somaport Live Control Room</title>
+<title>RTG Planning - Somaport</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
 <style>
 
@@ -17,104 +17,81 @@
 }
 
 body{
-    background:#050b14;
-    color:white;
-    overflow:hidden;
-}
-
-/* TOP */
-
-.topbar{
-    padding:15px;
-    background:#0b1a2c;
-    display:flex;
-    justify-content:space-between;
-    border-bottom:1px solid #00ff9d33;
-}
-
-.badge{
-    background:#00ff9d22;
-    color:#00ff9d;
-    padding:5px 15px;
-    border-radius:20px;
-}
-
-/* GRID */
-
-.grid{
-    display:grid;
-    grid-template-columns:1.5fr 1fr;
-    height:calc(100vh - 60px);
-}
-
-/* MAP */
-
-.map{
-    position:relative;
-    background:linear-gradient(135deg,#0a1a2e,#07111f);
-    border-left:1px solid #00ff9d22;
-    overflow:hidden;
-}
-
-/* container zones */
-
-.zone{
-    position:absolute;
-    width:120px;
-    height:120px;
-    background:#00ff9d10;
-    border:1px solid #00ff9d33;
-    border-radius:10px;
-}
-
-/* RTG */
-
-.rtg{
-    position:absolute;
-    width:30px;
-    height:30px;
-    background:#00ff9d;
-    border-radius:6px;
-    box-shadow:0 0 20px #00ff9d;
-}
-
-/* LEFT PANEL */
-
-.panel{
-    padding:15px;
-    overflow:auto;
-}
-
-.card{
     background:#0b1626;
-    margin-bottom:15px;
+    color:white;
+    padding:15px;
+}
+
+/* HEADER */
+
+.header{
+    text-align:center;
+    padding:20px;
+    background:#0f2238;
+    border-radius:15px;
+    border:1px solid #ffffff10;
+}
+
+.header h1{
+    color:#00ff9d;
+    font-size:28px;
+}
+
+.header h2{
+    font-size:18px;
+    margin-top:5px;
+}
+
+/* SECTION */
+
+.section{
+    margin-top:15px;
+    background:#0f2238;
     padding:15px;
     border-radius:15px;
     border:1px solid #ffffff10;
 }
 
+/* TITLE */
+
 .title{
+    text-align:center;
     color:#00ff9d;
     margin-bottom:10px;
     font-weight:800;
 }
 
-.status{
-    display:flex;
-    justify-content:space-between;
-    margin:5px 0;
+/* TABLE */
+
+table{
+    width:100%;
+    border-collapse:collapse;
 }
 
-/* BUTTON */
-
-button{
-    width:100%;
+td{
     padding:10px;
+    text-align:center;
+    border-bottom:1px solid #ffffff10;
+}
+
+/* RTG BADGE */
+
+.rtg{
+    display:inline-block;
     margin-top:10px;
-    border:none;
-    border-radius:10px;
-    background:#00ff9d;
-    font-weight:bold;
+    padding:6px 20px;
+    background:#00ff9d22;
+    color:#00ff9d;
+    border-radius:20px;
+    font-weight:800;
+}
+
+/* CONGÉ */
+
+.conge{
+    text-align:center;
+    line-height:2;
+    font-size:18px;
 }
 
 </style>
@@ -122,86 +99,45 @@ button{
 
 <body>
 
-<div class="topbar">
-    <div>🚢 SOMAPORT LIVE CONTROL ROOM</div>
-    <div class="badge">LIVE SYSTEM</div>
+<!-- HEADER -->
+<div class="header">
+    <h1>Somaport - RTG Planning</h1>
+    <h2>Démonche 10/05/2026</h2>
+    <div class="rtg">🚜 RTG N° 8</div>
 </div>
 
-<div class="grid">
+<!-- BINOMES -->
+<div class="section">
 
-    <!-- LEFT PANEL -->
-    <div class="panel">
+    <div class="title">👥 Les Binômes</div>
 
-        <div class="card">
-            <div class="title">🚜 RTG STATUS</div>
-            <div class="status"><span>RTG 8</span><span>ACTIVE 🟢</span></div>
-            <div class="status"><span>LOAD</span><span id="load">MEDIUM</span></div>
-        </div>
+    <table>
 
-        <div class="card">
-            <div class="title">📊 OPERATIONS</div>
-            <div class="status"><span>Containers</span><span id="c">12</span></div>
-            <div class="status"><span>Moves</span><span id="m">0</span></div>
+        <tr><td>Farih</td><td>//</td><td>Rmaili</td></tr>
+        <tr><td>Mandour</td><td>//</td><td>Banhadrya</td></tr>
+        <tr><td>Amin</td><td>//</td><td>Ousama</td></tr>
+        <tr><td>Anbry</td><td>//</td><td>Asli</td></tr>
+        <tr><td>Bentata</td><td>//</td><td>Madak</td></tr>
+        <tr><td>Jaaouiani</td><td>//</td><td>Errakhmi</td></tr>
+        <tr><td>Lamnabbah</td><td>//</td><td>Ramadan</td></tr>
+        <tr><td>Zaoui</td><td>//</td><td>Mabsout</td></tr>
 
-            <button onclick="start()">START SIMULATION</button>
-        </div>
-
-    </div>
-
-    <!-- MAP -->
-    <div class="map">
-
-        <!-- ZONES -->
-        <div class="zone" style="top:50px;right:50px;"></div>
-        <div class="zone" style="top:200px;right:200px;"></div>
-        <div class="zone" style="top:350px;right:80px;"></div>
-
-        <!-- RTG -->
-        <div class="rtg" id="rtg"></div>
-
-    </div>
+    </table>
 
 </div>
 
-<script>
+<!-- CONGÉ -->
+<div class="section">
 
-let rtg = document.getElementById("rtg");
-let x = 50;
-let y = 50;
-let moves = 0;
-let running = false;
+    <div class="title">🏖️ Congé</div>
 
-function moveRTG(){
+    <div class="conge">
+        Balhawi<br>
+        (Sorti) Lundi<br>
+        (Entré) Lundi soir
+    </div>
 
-    if(!running) return;
-
-    x += (Math.random()*40 - 20);
-    y += (Math.random()*40 - 20);
-
-    x = Math.max(20, Math.min(window.innerWidth/2, x));
-    y = Math.max(20, Math.min(window.innerHeight, y));
-
-    rtg.style.right = x + "px";
-    rtg.style.top = y + "px";
-
-    moves++;
-    document.getElementById("m").innerText = moves;
-
-    let load = document.getElementById("load");
-
-    if(moves < 10) load.innerText = "LOW";
-    else if(moves < 25) load.innerText = "MEDIUM";
-    else load.innerText = "HIGH";
-
-    setTimeout(moveRTG,800);
-}
-
-function start(){
-    running = true;
-    moveRTG();
-}
-
-</script>
+</div>
 
 </body>
 </html>
