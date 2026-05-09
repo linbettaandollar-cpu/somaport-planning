@@ -3,95 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RTG Planning - Somaport</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<title>Port Operations Simulator</title>
 
 <style>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Cairo',sans-serif;
-}
-
 body{
-    background:#0b1626;
+    margin:0;
+    font-family:Arial;
+    background:#06121f;
     color:white;
+}
+
+/* LAYOUT */
+
+.container{
+    display:grid;
+    grid-template-columns:250px 1fr 300px;
+    height:100vh;
+}
+
+/* LEFT MENU */
+
+.menu{
+    background:#0b1a2c;
     padding:15px;
 }
 
-/* HEADER */
+.menu h2{
+    color:#00ff9d;
+}
 
-.header{
-    text-align:center;
+/* CENTER FLOW */
+
+.flow{
     padding:20px;
-    background:#0f2238;
-    border-radius:15px;
-    border:1px solid #ffffff10;
+    display:flex;
+    flex-direction:column;
+    gap:15px;
 }
 
-.header h1{
-    color:#00ff9d;
-    font-size:28px;
-}
-
-.header h2{
-    font-size:18px;
-    margin-top:5px;
-}
-
-/* SECTION */
-
-.section{
-    margin-top:15px;
+.step{
     background:#0f2238;
     padding:15px;
-    border-radius:15px;
-    border:1px solid #ffffff10;
+    border-left:4px solid #00ff9d;
+    border-radius:10px;
 }
 
-/* TITLE */
+/* RIGHT PANEL */
 
-.title{
-    text-align:center;
-    color:#00ff9d;
-    margin-bottom:10px;
-    font-weight:800;
+.panel{
+    background:#0b1a2c;
+    padding:15px;
 }
 
-/* TABLE */
-
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-td{
-    padding:10px;
-    text-align:center;
-    border-bottom:1px solid #ffffff10;
-}
-
-/* RTG BADGE */
+/* RTG SIM */
 
 .rtg{
-    display:inline-block;
-    margin-top:10px;
-    padding:6px 20px;
+    width:100%;
+    height:120px;
     background:#00ff9d22;
-    color:#00ff9d;
-    border-radius:20px;
-    font-weight:800;
+    border:1px solid #00ff9d55;
+    border-radius:10px;
+    margin-top:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
 }
 
-/* CONGÉ */
+/* BUTTON */
 
-.conge{
-    text-align:center;
-    line-height:2;
-    font-size:18px;
+button{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+    background:#00ff9d;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
 }
 
 </style>
@@ -99,45 +88,74 @@ td{
 
 <body>
 
-<!-- HEADER -->
-<div class="header">
-    <h1>Somaport - RTG Planning</h1>
-    <h2>Démonche 10/05/2026</h2>
-    <div class="rtg">🚜 RTG N° 8</div>
-</div>
+<div class="container">
 
-<!-- BINOMES -->
-<div class="section">
+    <!-- MENU -->
+    <div class="menu">
+        <h2>PORT OPS</h2>
+        <p>RTG SYSTEM</p>
+        <p>Containers</p>
+        <p>Yard Control</p>
+    </div>
 
-    <div class="title">👥 Les Binômes</div>
+    <!-- FLOW SYSTEM -->
+    <div class="flow">
 
-    <table>
+        <h2 style="color:#00ff9d;">🚢 Operation Flow</h2>
 
-        <tr><td>Farih</td><td>//</td><td>Rmaili</td></tr>
-        <tr><td>Mandour</td><td>//</td><td>Banhadrya</td></tr>
-        <tr><td>Amin</td><td>//</td><td>Ousama</td></tr>
-        <tr><td>Anbry</td><td>//</td><td>Asli</td></tr>
-        <tr><td>Bentata</td><td>//</td><td>Madak</td></tr>
-        <tr><td>Jaaouiani</td><td>//</td><td>Errakhmi</td></tr>
-        <tr><td>Lamnabbah</td><td>//</td><td>Ramadan</td></tr>
-        <tr><td>Zaoui</td><td>//</td><td>Mabsout</td></tr>
+        <div class="step">1 - Vessel Arrival</div>
+        <div class="step">2 - Container Unloading</div>
+        <div class="step">3 - RTG Transfer</div>
+        <div class="step">4 - Yard Storage</div>
+        <div class="step">5 - Dispatch</div>
 
-    </table>
+    </div>
 
-</div>
+    <!-- PANEL -->
+    <div class="panel">
 
-<!-- CONGÉ -->
-<div class="section">
+        <h3 style="color:#00ff9d;">RTG CONTROL</h3>
 
-    <div class="title">🏖️ Congé</div>
+        <div class="rtg" id="rtg">RTG 8 - IDLE</div>
 
-    <div class="conge">
-        Balhawi<br>
-        (Sorti) Lundi<br>
-        (Entré) Lundi soir
+        <button onclick="run()">START OPERATION</button>
+
+        <p id="status">Status: Waiting...</p>
+
     </div>
 
 </div>
+
+<script>
+
+let steps = ["ARRIVAL","UNLOADING","TRANSFER","STORAGE","DONE"];
+let i = 0;
+
+function run(){
+
+    let r = document.getElementById("rtg");
+    let s = document.getElementById("status");
+
+    let interval = setInterval(()=>{
+
+        if(i >= steps.length){
+            clearInterval(interval);
+            r.innerText = "RTG 8 - IDLE";
+            s.innerText = "Status: Completed";
+            i = 0;
+            return;
+        }
+
+        r.innerText = "RTG 8 - " + steps[i];
+        s.innerText = "Status: " + steps[i];
+
+        i++;
+
+    },1200);
+
+}
+
+</script>
 
 </body>
 </html>
