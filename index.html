@@ -1,161 +1,343 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Port Operations Simulator</title>
-
-<style>
-
-body{
-    margin:0;
-    font-family:Arial;
-    background:#06121f;
-    color:white;
-}
-
-/* LAYOUT */
-
-.container{
-    display:grid;
-    grid-template-columns:250px 1fr 300px;
-    height:100vh;
-}
-
-/* LEFT MENU */
-
-.menu{
-    background:#0b1a2c;
-    padding:15px;
-}
-
-.menu h2{
-    color:#00ff9d;
-}
-
-/* CENTER FLOW */
-
-.flow{
-    padding:20px;
-    display:flex;
-    flex-direction:column;
-    gap:15px;
-}
-
-.step{
-    background:#0f2238;
-    padding:15px;
-    border-left:4px solid #00ff9d;
-    border-radius:10px;
-}
-
-/* RIGHT PANEL */
-
-.panel{
-    background:#0b1a2c;
-    padding:15px;
-}
-
-/* RTG SIM */
-
-.rtg{
-    width:100%;
-    height:120px;
-    background:#00ff9d22;
-    border:1px solid #00ff9d55;
-    border-radius:10px;
-    margin-top:10px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:bold;
-}
-
-/* BUTTON */
-
-button{
-    width:100%;
-    padding:10px;
-    margin-top:10px;
-    background:#00ff9d;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-    <!-- MENU -->
-    <div class="menu">
-        <h2>PORT OPS</h2>
-        <p>RTG SYSTEM</p>
-        <p>Containers</p>
-        <p>Yard Control</p>
-    </div>
-
-    <!-- FLOW SYSTEM -->
-    <div class="flow">
-
-        <h2 style="color:#00ff9d;">🚢 Operation Flow</h2>
-
-        <div class="step">1 - Vessel Arrival</div>
-        <div class="step">2 - Container Unloading</div>
-        <div class="step">3 - RTG Transfer</div>
-        <div class="step">4 - Yard Storage</div>
-        <div class="step">5 - Dispatch</div>
-
-    </div>
-
-    <!-- PANEL -->
-    <div class="panel">
-
-        <h3 style="color:#00ff9d;">RTG CONTROL</h3>
-
-        <div class="rtg" id="rtg">RTG 8 - IDLE</div>
-
-        <button onclick="run()">START OPERATION</button>
-
-        <p id="status">Status: Waiting...</p>
-
-    </div>
-
-</div>
-
-<script>
-
-let steps = ["ARRIVAL","UNLOADING","TRANSFER","STORAGE","DONE"];
-let i = 0;
-
-function run(){
-
-    let r = document.getElementById("rtg");
-    let s = document.getElementById("status");
-
-    let interval = setInterval(()=>{
-
-        if(i >= steps.length){
-            clearInterval(interval);
-            r.innerText = "RTG 8 - IDLE";
-            s.innerText = "Status: Completed";
-            i = 0;
-            return;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planning Somaport - RTG N°8</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3a8a; /* أزرق كحلي للشركة */
+            --secondary: #ea580c; /* ليموني للآلات */
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-dark: #334155;
+            --border-color: #e2e8f0;
         }
 
-        r.innerText = "RTG 8 - " + steps[i];
-        s.innerText = "Status: " + steps[i];
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+        }
 
-        i++;
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
 
-    },1200);
+        .planning-card {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 800px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
 
-}
+        /* رأس الصفحة - Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary), #172554);
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            position: relative;
+            border-bottom: 6px solid var(--secondary);
+        }
 
-</script>
+        /* أيقونة آلة RTG مبرمجة بالـ SVG */
+        .rtg-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1rem auto;
+            display: block;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .header h2 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #93c5fd;
+        }
+
+        /* شريط المعلومات */
+        .info-bar {
+            display: flex;
+            justify-content: space-between;
+            background: #eff6ff;
+            padding: 1.2rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* محتوى البلانينڭ */
+        .content {
+            padding: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 0.5rem;
+            width: fit-content;
+            font-weight: 800;
+        }
+
+        /* شبكة الشركاء (Binômes) */
+        .binomes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .binome-card {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            border-right: 5px solid var(--primary);
+        }
+
+        .binome-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.08);
+            border-right-color: var(--secondary);
+            background: white;
+        }
+
+        .partner-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .separator {
+            color: var(--secondary);
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        /* قسم الرخص (Congés) */
+        .conges-section {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            border-right: 5px solid var(--secondary);
+        }
+
+        .conges-section .section-title {
+            border-bottom-color: #fbd38d;
+            color: #c05621;
+        }
+
+        .conge-card {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #fed7aa;
+            margin-top: 1rem;
+        }
+
+        .worker-name {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #c05621;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .conge-details {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #fef4c6;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #9c4221;
+        }
+
+        .badge span:first-child {
+            font-size: 0.8rem;
+            color: #c05621;
+            margin-bottom: 0.2rem;
+        }
+
+        /* التجاوب مع الهواتف */
+        @media (max-width: 600px) {
+            .info-bar {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+            .conge-card {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="planning-card">
+    
+    <!-- الرأس وفيه الرمز ديال الآلة -->
+    <div class="header">
+        <!-- رسم SVG لآلة RTG -->
+        <svg class="rtg-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- هيكل الآلة الخارجي -->
+            <path d="M15 90 V25 H85 V90" stroke="#ea580c" stroke-width="6" stroke-linejoin="round"/>
+            <path d="M25 90 V35 H75 V90" stroke="#ea580c" stroke-width="4" stroke-linejoin="round"/>
+            <!-- الدعامات المائلة -->
+            <path d="M15 40 L25 50 M85 40 L75 50" stroke="#ea580c" stroke-width="4"/>
+            <path d="M15 70 L25 80 M85 70 L75 80" stroke="#ea580c" stroke-width="4"/>
+            <!-- العجلات -->
+            <circle cx="15" cy="90" r="6" fill="#94a3b8"/>
+            <circle cx="25" cy="90" r="6" fill="#94a3b8"/>
+            <circle cx="75" cy="90" r="6" fill="#94a3b8"/>
+            <circle cx="85" cy="90" r="6" fill="#94a3b8"/>
+            <!-- المحرك العلوي (Spreader/Trolley) -->
+            <rect x="40" y="25" width="20" height="15" fill="#93c5fd" stroke="white" stroke-width="2"/>
+            <line x1="45" y1="40" x2="45" y2="60" stroke="#cbd5e1" stroke-width="2"/>
+            <line x1="55" y1="40" x2="55" y2="60" stroke="#cbd5e1" stroke-width="2"/>
+            <rect x="35" y="60" width="30" height="8" fill="#1e3a8a" rx="2"/>
+        </svg>
+        
+        <h1>شركة Somaport</h1>
+        <h2>قسم الـ RTG</h2>
+    </div>
+
+    <!-- شريط التاريخ والآلة -->
+    <div class="info-bar">
+        <div class="info-item">
+            <span>📅</span> الأحد 10/05/2026
+        </div>
+        <div class="info-item">
+            <span>🚜</span> الآلة: RTG N° 8
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- قسم الشركاء -->
+        <h3 class="section-title">👥 قائمة الشركاء (Les Binômes)</h3>
+        
+        <div class="binomes-grid">
+            <div class="binome-card">
+                <span class="partner-name">Farih</span>
+                <span class="separator">//</span>
+                <span class="partner-name">Rmaili</span>
+            </div>
+            
+            <div class="binome-card">
+                <span class="partner-name">Mandour</span>
+                <span class="separator">//</span>
+                <span class="partner-name">Banhadrya</span>
+            </div>
+            
+            <div class="binome-card">
+                <span class="partner-name">Amin</span>
+                <span class="separator">//</span>
+                <span class="partner-name">Ousama</span>
+            </div>
+            
+            <div class="binome-card">
+                <span class="partner-name">Anbry</span>
+                <span class="separator">//</span>
+                <span class="partner-name">Asli</span>
+            </div>
+            
+            <div class="binome-card">
+                <span class="partner-name">Bentata</span>
+                <span class="separator">//</span>
+                <span class="partner-name">Madak</span>
+            </div>
+            
+            <div class="binome-card">
+                <span class="partner-name">Jaaouiani</span>
+                <span class="separator">//</span>
+                <span class="partner-name">Errakhmi</span>
+            </div>
+            
+            <div class="binome-card">
+                <span class="partner-name">Lamnabbah</span>
+                <span class="separator">//</span>
+                <span class="partner-name">Ramadan</span>
+            </div>
+            
+            <div class="binome-card">
+                <span class="partner-name">Zaoui</span>
+                <span class="separator">//</span>
+                <span class="partner-name">Mabsout</span>
+            </div>
+        </div>
+
+        <!-- قسم الرخص -->
+        <div class="conges-section">
+            <h3 class="section-title">🏖️ وضعية الرخص (Congés)</h3>
+            
+            <div class="conge-card">
+                <div class="worker-name">
+                    <span>🔸</span> Balhawi
+                </div>
+                <div class="conge-details">
+                    <div class="badge">
+                        <span>خروج (Sorti)</span>
+                        الإثنين
+                    </div>
+                    <div class="badge">
+                        <span>دخول (Entré)</span>
+                        الإثنين الثالث
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 </body>
 </html>
