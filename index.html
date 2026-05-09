@@ -3,198 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Somaport Planning | Premium Edition</title>
+    <title>Somaport Elite Planning</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bamboo-dark: #1a1a1a;
-            --bamboo-gold: #c5a059; /* لون ذهبي خفيف بحال Bamboo */
-            --bamboo-grey: #f9f9f9;
-            --text-main: #333333;
+            --gold: #c5a059;
+            --glass: rgba(255, 255, 255, 0.85);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
         
-        body { 
-            background-color: white; 
-            color: var(--text-main);
-            line-height: 1.6;
+        body { background-color: #000; color: #1a1a1a; overflow-x: hidden; }
+
+        /* حاوية السلايدر */
+        .slider {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
         }
 
-        /* Header Style Bamboo */
-        header {
-            padding: 60px 20px;
+        .slide {
+            height: 100vh;
+            width: 100%;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* كيعطي إحساس بالعمق بحال Bamboo */
+        }
+
+        /* إضافة صور HD من مواقع عالمية (تقدر تبدلها بتصاور حقيقيين) */
+        .slide:nth-child(1) { background-image: url('https://images.unsplash.com/photo-1510673398445-94f476ef2cbc?q=80&w=2068&auto=format&fit=crop'); }
+        .slide:nth-child(even) { background-image: url('https://images.unsplash.com/photo-1520102188090-c8b80c55c472?q=80&w=2070&auto=format&fit=crop'); }
+        .slide:nth-child(odd) { background-image: url('https://images.unsplash.com/photo-1494412574005-06788647cc54?q=80&w=2070&auto=format&fit=crop'); }
+
+        /* إطار المعلومات (Glass Effect) */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            padding: 50px 30px;
+            width: 85%;
+            max-width: 450px;
             text-align: center;
-            border-bottom: 1px solid #eee;
+            border-radius: 2px; /* حواف حادة بحال Bamboo */
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.3);
         }
 
         .brand {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 900;
-            letter-spacing: 4px;
-            color: var(--bamboo-dark);
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-
-        .sub-brand {
-            font-size: 0.9rem;
-            color: var(--bamboo-gold);
-            letter-spacing: 2px;
-            font-weight: 700;
-        }
-
-        .date-display {
-            margin-top: 20px;
-            font-size: 1.1rem;
-            color: #888;
-            font-weight: 300;
-        }
-
-        /* Planning Section */
-        .container {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            margin-bottom: 30px;
-            text-align: center;
-            font-weight: 400;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 40px;
-            height: 2px;
-            background: var(--bamboo-gold);
-            margin: 10px auto;
-        }
-
-        .worker-card {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 25px 0;
-            border-bottom: 1px solid #f0f0f0;
-            transition: all 0.3s ease;
-        }
-
-        .worker-card:hover {
-            padding-right: 10px;
-            border-bottom-color: var(--bamboo-gold);
-        }
-
-        .binome-info {
-            flex: 1;
+            letter-spacing: 6px;
+            color: #000;
+            margin-bottom: 5px;
         }
 
         .binome-tag {
-            font-size: 0.75rem;
-            color: var(--bamboo-gold);
+            font-size: 0.8rem;
+            color: var(--gold);
+            letter-spacing: 3px;
             font-weight: 700;
             text-transform: uppercase;
-            margin-bottom: 5px;
+            margin-bottom: 30px;
             display: block;
         }
 
-        .names-group {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--bamboo-dark);
+        .worker-name {
+            font-size: 2.4rem;
+            font-weight: 300; /* خط رقيق وأنيق */
+            color: #1a1a1a;
+            margin: 10px 0;
+            display: block;
         }
 
-        .names-group span {
-            color: #ccc;
-            font-weight: 300;
-            margin: 0 10px;
+        .separator {
+            width: 40px;
+            height: 1px;
+            background: var(--gold);
+            margin: 25px auto;
         }
 
-        /* Congé Section */
-        .conge-box {
-            margin-top: 50px;
-            background: var(--bamboo-grey);
-            padding: 40px;
-            text-align: center;
-            border-radius: 2px;
-        }
-
-        .conge-box h3 {
-            color: #e63946;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-        }
-
-        /* Footer Motivation */
-        footer {
-            padding: 80px 20px;
-            background: var(--bamboo-dark);
+        /* صفحة العطلة الاستثنائية */
+        .conge-card {
+            background: rgba(18, 18, 18, 0.9);
             color: white;
-            text-align: center;
-            margin-top: 60px;
+            border: 1px solid var(--gold);
         }
+        .conge-card .worker-name { color: white; }
+        .conge-card .brand { color: white; }
 
-        .quote {
-            font-style: italic;
-            font-size: 1.2rem;
-            max-width: 500px;
-            margin: 0 auto 20px;
-            font-weight: 300;
-        }
-
-        .safety-badge {
-            display: inline-block;
-            border: 1px solid var(--bamboo-gold);
-            padding: 5px 20px;
-            color: var(--bamboo-gold);
-            font-size: 0.8rem;
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            color: white;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
             text-transform: uppercase;
+            opacity: 0.7;
         }
 
-        #loader { text-align: center; padding: 40px; color: var(--bamboo-gold); }
+        #loading { height: 100vh; display: flex; justify-content: center; align-items: center; color: white; background: #000; }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="brand">SOMAPORT</div>
-        <div class="sub-brand">RTG 8 • ELITE CREW</div>
-        <div class="date-display" id="date-text">...</div>
-    </header>
-
-    <div class="container">
-        <h2 class="section-title">برنامج العمل اليومي</h2>
-        
-        <div id="loader">جاري تحميل البيانات الفاخرة...</div>
-        <div id="planning-list"></div>
-
-        <div id="conge-section" style="display: none;"></div>
+    <div id="loading">RTG 8 ELITE...</div>
+    <div class="slider" id="main-slider">
+        <!-- الواجهة الترحيبية -->
+        <div class="slide">
+            <div class="glass-card">
+                <h1 class="brand">SOMAPORT</h1>
+                <span class="binome-tag">RTG 8 Planning</span>
+                <div class="separator"></div>
+                <p id="today-date" style="font-weight: 300; font-size: 1.1rem;"></p>
+            </div>
+            <div class="scroll-indicator">اسحب للاكتشاف ↓</div>
+        </div>
     </div>
-
-    <footer>
-        <p class="quote">"النجاح ليس صدفة، بل هو نتيجة التركيز والعمل الجماعي المتقن."</p>
-        <div class="safety-badge">السلامة أولاً • Safety First</div>
-        <p style="margin-top: 20px; font-size: 0.7rem; color: #555;">SOMAPORT LOGISTICS 2026</p>
-    </footer>
 
     <script>
         const API = "https://api.sheetbest.com/sheets/b6e3ae1f-2190-406c-8264-091975545af0";
 
         // التاريخ
         const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-        document.getElementById('date-text').innerText = new Date().toLocaleDateString('ar-MA', options);
+        document.getElementById('today-date').innerText = new Date().toLocaleDateString('ar-MA', options);
 
-        async function loadData() {
+        async function init() {
             try {
                 const res = await fetch(API);
                 const data = await res.json();
-                const list = document.getElementById('planning-list');
-                const conge = document.getElementById('conge-section');
-                document.getElementById('loader').style.display = 'none';
+                const slider = document.getElementById('main-slider');
+                document.getElementById('loading').style.display = 'none';
 
                 data.forEach(item => {
                     const get = (k) => {
@@ -208,32 +150,48 @@
 
                     if(!b && !p1) return;
 
-                    if(b.toUpperCase().includes('CONGÉ')) {
-                        conge.style.display = 'block';
-                        conge.innerHTML = `
-                            <div class="conge-box">
-                                <h3>وضعية الاستراحة والعطل</h3>
-                                <p style="font-size:1.3rem; font-weight:700;">${p1}</p>
-                                <p style="color:#888; margin-top:10px;">${p2.replace('In:', 'دخول:').replace('Out:', 'خروج:')}</p>
-                            </div>
-                        `;
-                    } else {
-                        list.innerHTML += `
-                            <div class="worker-card">
-                                <div class="binome-info">
-                                    <span class="binome-tag">Binôme ${b}</span>
-                                    <div class="names-group">${p1} <span>|</span> ${p2}</div>
-                                </div>
-                            </div>
-                        `;
-                    }
+                    const isC = b.toUpperCase().includes('CONGÉ');
+                    
+                    const slide = document.createElement('div');
+                    slide.className = 'slide';
+                    
+                    slide.innerHTML = `
+                        <div class="glass-card ${isC ? 'conge-card' : ''}">
+                            <h2 class="brand">SOMAPORT</h2>
+                            <span class="binome-tag">${isC ? 'OFF DUTY / عطلة' : 'Binôme ' + b}</span>
+                            <span class="worker-name">${p1}</span>
+                            <div class="separator"></div>
+                            <span class="worker-name" style="${isC ? 'font-size: 1.2rem; color: var(--gold);' : ''}">
+                                ${isC ? p2.replace('In:', 'دخول:').replace('Out:', 'خروج:') : p2}
+                            </span>
+                        </div>
+                    `;
+                    slider.appendChild(slide);
                 });
+
+                // صفحة النهاية (Motivation)
+                const endSlide = document.createElement('div');
+                endSlide.className = 'slide';
+                endSlide.style.backgroundImage = "url('https://images.unsplash.com/photo-1544333346-64e4fe18274b?q=80&w=2070&auto=format&fit=crop')";
+                endSlide.innerHTML = `
+                    <div class="glass-card" style="background: rgba(0,0,0,0.8); color: white;">
+                        <h2 class="brand" style="color:white;">SAFETY FIRST</h2>
+                        <div class="separator"></div>
+                        <p style="font-weight: 300; line-height: 1.8;">
+                            سلامتكم هي أولويتنا.<br>
+                            يوم عمل سعيد ومليء بالنجاح لفريقنا.<br>
+                        </p>
+                        <div class="separator"></div>
+                        <span style="color: var(--gold); font-size: 0.8rem;">RTG 8 • ELITE CREW</span>
+                    </div>
+                `;
+                slider.appendChild(endSlide);
+
             } catch (e) {
-                document.getElementById('loader').innerText = "فشل في الاتصال بالسيرفر";
+                console.log("Error loading data");
             }
         }
-
-        loadData();
+        init();
     </script>
 </body>
 </html>
