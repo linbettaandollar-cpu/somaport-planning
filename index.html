@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-<title>Somaport RTG Planning</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Somaport RTG System</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
@@ -13,10 +11,7 @@
 
 :root{
     --green:#00ff9d;
-    --green2:#00d084;
     --navy:#07111f;
-    --navy2:#0d1e36;
-    --white:#ffffff;
     --glass:rgba(255,255,255,0.08);
 }
 
@@ -24,442 +19,129 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-}
-
-html,body{
-    width:100%;
-    height:100%;
-    overflow:hidden;
     font-family:'Cairo',sans-serif;
-    background:
-    radial-gradient(circle at top right,#00ff9d20,transparent 25%),
-    radial-gradient(circle at bottom left,#00d08420,transparent 25%),
-    linear-gradient(135deg,#020814,#07111f,#0d1e36);
-    color:white;
 }
 
-/* Animated Background */
+body{
+    background:linear-gradient(135deg,#050b16,#07111f,#0d1e36);
+    color:white;
+    min-height:100vh;
+}
 
-.bg-grid{
+/* LOGIN */
+
+.login{
     position:fixed;
     inset:0;
-    background-image:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size:40px 40px;
-    z-index:0;
-}
-
-.glow{
-    position:absolute;
-    width:500px;
-    height:500px;
-    border-radius:50%;
-    background:linear-gradient(45deg,#00ff9d33,#00d08411);
-    filter:blur(120px);
-}
-
-.glow1{
-    top:-150px;
-    right:-150px;
-}
-
-.glow2{
-    bottom:-150px;
-    left:-150px;
-}
-
-/* Slider */
-
-.slider{
-    width:100%;
-    height:100%;
-    position:relative;
-    z-index:2;
-}
-
-.slide{
-    position:absolute;
-    inset:0;
-    opacity:0;
-    transform:translateX(60px) scale(.96);
-    transition:1s ease;
     display:flex;
     justify-content:center;
     align-items:center;
-    padding:20px;
-    pointer-events:none;
+    background:radial-gradient(circle,#00ff9d22,#000);
 }
 
-.slide.active{
-    opacity:1;
-    transform:translateX(0) scale(1);
-    pointer-events:auto;
-}
-
-.card{
-    width:100%;
-    max-width:1400px;
-    height:92vh;
+.login-box{
+    width:90%;
+    max-width:400px;
+    padding:30px;
     background:rgba(255,255,255,0.06);
-    backdrop-filter:blur(22px);
-    border:1px solid rgba(255,255,255,0.08);
-    border-radius:35px;
-    overflow:hidden;
-    position:relative;
-    box-shadow:
-    0 0 60px rgba(0,0,0,0.45),
-    inset 0 0 1px rgba(255,255,255,0.25);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:25px;
+    backdrop-filter:blur(15px);
+    text-align:center;
 }
 
-/* Header */
-
-.header{
-    width:100%;
-    padding:25px 35px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    border-bottom:1px solid rgba(255,255,255,0.08);
-}
-
-.brand{
-    display:flex;
-    align-items:center;
-    gap:15px;
-}
-
-.brand-icon{
-    width:60px;
-    height:60px;
-    border-radius:18px;
-    background:linear-gradient(135deg,var(--green),var(--green2));
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:30px;
-    color:#07111f;
-    font-weight:900;
-    box-shadow:0 0 25px #00ff9d55;
-}
-
-.brand-text h1{
-    font-size:28px;
-    font-weight:900;
-}
-
-.brand-text p{
-    color:#bfd3ea;
-    font-size:14px;
-}
-
-.status{
-    padding:12px 22px;
-    border-radius:18px;
-    background:#00ff9d15;
-    border:1px solid #00ff9d55;
-    color:var(--green);
-    font-weight:700;
-    font-size:15px;
-}
-
-/* HERO */
-
-.hero{
-    display:grid;
-    grid-template-columns:1.1fr 1fr;
-    gap:30px;
-    padding:35px;
-    height:calc(100% - 95px);
-}
-
-/* Left */
-
-.left{
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-}
-
-.title{
-    font-size:72px;
-    line-height:1.05;
-    font-weight:900;
+.login-box h2{
     margin-bottom:20px;
 }
 
-.title span{
-    background:linear-gradient(90deg,var(--green),#ffffff);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
-
-.desc{
-    font-size:19px;
-    color:#d6e3f5;
-    line-height:2;
-    margin-bottom:35px;
-}
-
-.info-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:20px;
-}
-
-.info{
-    background:rgba(255,255,255,0.05);
-    border:1px solid rgba(255,255,255,0.08);
-    border-radius:24px;
-    padding:24px;
-    transition:.4s;
-}
-
-.info:hover{
-    transform:translateY(-8px);
-    border-color:#00ff9d66;
-    box-shadow:0 15px 35px #00ff9d18;
-}
-
-.info small{
-    display:block;
-    color:#a6bdd7;
-    margin-bottom:10px;
-    font-size:14px;
-}
-
-.info strong{
-    font-size:28px;
-}
-
-/* Right */
-
-.right{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    position:relative;
-}
-
-/* RTG MACHINE */
-
-.rtg-box{
+input{
     width:100%;
-    height:100%;
-    border-radius:35px;
-    background:
-    linear-gradient(145deg,
-    rgba(255,255,255,0.08),
-    rgba(255,255,255,0.03));
-    border:1px solid rgba(255,255,255,0.08);
+    padding:15px;
+    margin:10px 0;
+    border-radius:12px;
+    border:none;
+    outline:none;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    background:var(--green);
+    border:none;
+    border-radius:12px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* DASHBOARD */
+
+.dashboard{
+    display:none;
+    padding:20px;
+}
+
+.header{
     display:flex;
+    justify-content:space-between;
     align-items:center;
-    justify-content:center;
-    position:relative;
-    overflow:hidden;
+    padding:15px;
+    background:rgba(255,255,255,0.05);
+    border-radius:15px;
 }
 
-.rtg-box::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:
-    linear-gradient(90deg,
-    transparent,
-    rgba(255,255,255,0.12),
-    transparent);
-    animation:shine 5s linear infinite;
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:15px;
+    margin-top:20px;
 }
 
-@keyframes shine{
-    from{
-        transform:translateX(-100%);
-    }
-    to{
-        transform:translateX(100%);
-    }
+.card{
+    background:rgba(255,255,255,0.06);
+    padding:20px;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,0.08);
 }
 
-.rtg-img{
-    width:95%;
-    max-width:600px;
-    filter:
-    drop-shadow(0 0 25px rgba(0,255,157,0.45))
-    drop-shadow(0 0 60px rgba(0,255,157,0.15));
-    animation:float 5s ease-in-out infinite;
-}
-
-@keyframes float{
-    0%,100%{
-        transform:translateY(0);
-    }
-    50%{
-        transform:translateY(-12px);
-    }
-}
-
-/* Slides */
-
-.content{
-    padding:35px;
-}
-
-.slide-title{
-    font-size:48px;
-    margin-bottom:30px;
-    font-weight:900;
-}
-
-.slide-title span{
+h3{
+    margin-bottom:10px;
     color:var(--green);
 }
 
-.table-box{
-    width:100%;
-    overflow:auto;
-    border-radius:30px;
-    border:1px solid rgba(255,255,255,0.08);
-}
+/* TABLE */
 
 table{
     width:100%;
+    margin-top:10px;
     border-collapse:collapse;
 }
 
-th{
-    background:linear-gradient(90deg,var(--green2),var(--green));
-    color:#07111f;
-    padding:24px;
-    font-size:20px;
-    font-weight:900;
-}
-
-td{
-    padding:22px;
+td,th{
+    padding:10px;
     text-align:center;
-    background:rgba(255,255,255,0.04);
-    border-bottom:1px solid rgba(255,255,255,0.05);
-    font-size:20px;
-    transition:.3s;
+    border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
-tr:hover td{
-    background:rgba(255,255,255,0.08);
-}
-
-/* Nav */
-
-.nav{
-    position:fixed;
-    bottom:25px;
-    left:50%;
-    transform:translateX(-50%);
-    display:flex;
-    gap:14px;
-    z-index:20;
-}
-
-.nav button{
-    width:58px;
-    height:58px;
-    border:none;
-    border-radius:50%;
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(12px);
-    color:white;
-    font-size:22px;
+.action{
     cursor:pointer;
-    transition:.35s;
-    border:1px solid rgba(255,255,255,0.1);
+    color:red;
 }
 
-.nav button:hover{
-    background:linear-gradient(135deg,var(--green),var(--green2));
-    color:#07111f;
-    transform:translateY(-5px);
-}
+/* ADD */
 
-/* Pagination */
-
-.pagination{
-    position:fixed;
-    top:25px;
-    left:50%;
-    transform:translateX(-50%);
+.add{
     display:flex;
     gap:10px;
-    z-index:20;
+    margin-top:10px;
 }
 
-.dot{
-    width:12px;
-    height:12px;
-    border-radius:50%;
-    background:rgba(255,255,255,0.25);
-    transition:.3s;
+.add input{
+    flex:1;
 }
 
-.dot.active{
-    width:40px;
-    border-radius:20px;
-    background:linear-gradient(90deg,var(--green2),var(--green));
-}
-
-/* Footer */
-
-.footer{
-    position:absolute;
-    bottom:20px;
-    left:35px;
-    color:#abc1dc;
-    font-size:14px;
-}
-
-/* MOBILE */
-
-@media(max-width:950px){
-
-    body{
-        overflow:auto;
-    }
-
-    .card{
-        height:auto;
-        min-height:95vh;
-    }
-
-    .hero{
-        grid-template-columns:1fr;
-        padding:20px;
-    }
-
-    .title{
-        font-size:42px;
-    }
-
-    .slide-title{
-        font-size:32px;
-    }
-
-    .info-grid{
-        grid-template-columns:1fr;
-    }
-
-    .header{
-        flex-direction:column;
-        gap:15px;
-        align-items:flex-start;
-    }
-
-    .rtg-box{
-        min-height:320px;
-    }
-
-    td,th{
-        font-size:16px;
-        padding:16px;
-    }
-
+.add button{
+    width:auto;
+    padding:10px 15px;
 }
 
 </style>
@@ -467,319 +149,134 @@ tr:hover td{
 
 <body>
 
-<div class="bg-grid"></div>
-
-<div class="glow glow1"></div>
-<div class="glow glow2"></div>
-
-<!-- Pagination -->
-
-<div class="pagination">
-    <div class="dot active"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
+<!-- LOGIN -->
+<div class="login" id="login">
+    <div class="login-box">
+        <h2>🔐 Somaport RTG Login</h2>
+        <input type="text" id="user" placeholder="Username">
+        <input type="password" id="pass" placeholder="Password">
+        <button onclick="login()">Enter System</button>
+    </div>
 </div>
 
-<div class="slider">
+<!-- DASHBOARD -->
+<div class="dashboard" id="dash">
 
-    <!-- SLIDE 1 -->
+    <div class="header">
+        <h2>🚜 RTG Operations System</h2>
+        <button onclick="logout()">Logout</button>
+    </div>
 
-    <section class="slide active">
+    <div class="grid">
 
         <div class="card">
+            <h3>📅 Date</h3>
+            <p>10/05/2026</p>
+        </div>
 
-            <div class="header">
+        <div class="card">
+            <h3>🚜 Machine</h3>
+            <p>RTG N° 8</p>
+        </div>
 
-                <div class="brand">
+        <div class="card">
+            <h3>👥 Binômes</h3>
 
-                    <div class="brand-icon">
-                        🚜
-                    </div>
-
-                    <div class="brand-text">
-                        <h1>شركة Somaport</h1>
-                        <p>قسم عمليات RTG</p>
-                    </div>
-
-                </div>
-
-                <div class="status">
-                    RTG Planning Dashboard
-                </div>
-
+            <div class="add">
+                <input id="b1" placeholder="A">
+                <input id="b2" placeholder="B">
+                <button onclick="addPair()">+</button>
             </div>
 
-            <div class="hero">
-
-                <div class="left">
-
-                    <div class="title">
-                        تخطيط <span>RTG N° 8</span><br>
-                        بطريقة عصرية
-                    </div>
-
-                    <div class="desc">
-                        لوحة احترافية حديثة خاصة بتنظيم عمليات قسم الـ RTG داخل شركة Somaport مع تصميم متجاوب يشتغل بشكل ممتاز على الهاتف والحاسوب.
-                    </div>
-
-                    <div class="info-grid">
-
-                        <div class="info">
-                            <small>📅 التاريخ</small>
-                            <strong>10/05/2026</strong>
-                        </div>
-
-                        <div class="info">
-                            <small>🚜 الآلة</small>
-                            <strong>RTG N° 8</strong>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="right">
-
-                    <div class="rtg-box">
-
-                        <!-- RTG IMAGE -->
-
-                        <img
-                        class="rtg-img"
-                        src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Container_crane_at_port.png"
-                        alt="RTG Crane">
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="footer">
-                SOMAPORT • MODERN RTG SYSTEM
-            </div>
+            <table id="table"></table>
 
         </div>
 
-    </section>
-
-    <!-- SLIDE 2 -->
-
-    <section class="slide">
-
         <div class="card">
+            <h3>🏖️ Congés</h3>
 
-            <div class="content">
+            <input id="name" placeholder="Nom">
+            <input id="leave" placeholder="Sortie">
+            <input id="back" placeholder="Entrée">
 
-                <div class="slide-title">
-                    👥 قائمة <span>الشركاء</span>
-                </div>
+            <button onclick="addLeave()">Ajouter</button>
 
-                <div class="table-box">
-
-                    <table>
-
-                        <thead>
-                            <tr>
-                                <th>الشريك الأول</th>
-                                <th>الشريك الثاني</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                            <tr>
-                                <td>Farih</td>
-                                <td>Rmaili</td>
-                            </tr>
-
-                            <tr>
-                                <td>Mandour</td>
-                                <td>Banhadrya</td>
-                            </tr>
-
-                            <tr>
-                                <td>Amin</td>
-                                <td>Ousama</td>
-                            </tr>
-
-                            <tr>
-                                <td>Anbry</td>
-                                <td>Asli</td>
-                            </tr>
-
-                            <tr>
-                                <td>Bentata</td>
-                                <td>Madak</td>
-                            </tr>
-
-                            <tr>
-                                <td>Jaaouiani</td>
-                                <td>Errakhmi</td>
-                            </tr>
-
-                            <tr>
-                                <td>Lamnabbah</td>
-                                <td>Ramadan</td>
-                            </tr>
-
-                            <tr>
-                                <td>Zaoui</td>
-                                <td>Mabsout</td>
-                            </tr>
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
+            <table id="leaveTable"></table>
 
         </div>
 
-    </section>
+    </div>
 
-    <!-- SLIDE 3 -->
-
-    <section class="slide">
-
-        <div class="card">
-
-            <div class="content">
-
-                <div class="slide-title">
-                    🏖️ وضعية <span>الرخص</span>
-                </div>
-
-                <div class="table-box">
-
-                    <table>
-
-                        <thead>
-                            <tr>
-                                <th>الإسم</th>
-                                <th>الخروج</th>
-                                <th>الدخول</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                            <tr>
-                                <td>Balhawi</td>
-                                <td>الإثنين</td>
-                                <td>الإثنين بليل</td>
-                            </tr>
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-</div>
-
-<!-- NAV -->
-
-<div class="nav">
-    <button onclick="prevSlide()">❮</button>
-    <button onclick="nextSlide()">❯</button>
 </div>
 
 <script>
 
-const slides = document.querySelectorAll('.slide');
-const dots = document.querySelectorAll('.dot');
+let pairs = JSON.parse(localStorage.getItem("pairs") || "[]");
+let leaves = JSON.parse(localStorage.getItem("leaves") || "[]");
 
-let current = 0;
+function login(){
+    let u = document.getElementById("user").value;
+    let p = document.getElementById("pass").value;
 
-function updateSlides(){
+    if(u && p){
+        document.getElementById("login").style.display="none";
+        document.getElementById("dash").style.display="block";
+        render();
+    }else{
+        alert("دخل المعلومات");
+    }
+}
 
-    slides.forEach((slide,index)=>{
+function logout(){
+    location.reload();
+}
 
-        slide.classList.remove('active');
-        dots[index].classList.remove('active');
+function addPair(){
+    let a = document.getElementById("b1").value;
+    let b = document.getElementById("b2").value;
 
-        if(index === current){
-            slide.classList.add('active');
-            dots[index].classList.add('active');
-        }
+    if(a && b){
+        pairs.push({a,b});
+        localStorage.setItem("pairs",JSON.stringify(pairs));
+        render();
+    }
+}
 
+function addLeave(){
+    let n = document.getElementById("name").value;
+    let s = document.getElementById("leave").value;
+    let e = document.getElementById("back").value;
+
+    leaves.push({n,s,e});
+    localStorage.setItem("leaves",JSON.stringify(leaves));
+    render();
+}
+
+function render(){
+
+    let t = "<tr><th>A</th><th>B</th></tr>";
+
+    pairs.forEach((p,i)=>{
+        t += `<tr>
+            <td>${p.a}</td>
+            <td>${p.b}</td>
+        </tr>`;
     });
 
+    document.getElementById("table").innerHTML = t;
+
+    let l = "<tr><th>Nom</th><th>Sortie</th><th>Entrée</th></tr>";
+
+    leaves.forEach(v=>{
+        l += `<tr>
+            <td>${v.n}</td>
+            <td>${v.s}</td>
+            <td>${v.e}</td>
+        </tr>`;
+    });
+
+    document.getElementById("leaveTable").innerHTML = l;
 }
-
-function nextSlide(){
-
-    current++;
-
-    if(current >= slides.length){
-        current = 0;
-    }
-
-    updateSlides();
-}
-
-function prevSlide(){
-
-    current--;
-
-    if(current < 0){
-        current = slides.length - 1;
-    }
-
-    updateSlides();
-}
-
-/* Keyboard */
-
-document.addEventListener('keydown',(e)=>{
-
-    if(e.key === 'ArrowRight'){
-        nextSlide();
-    }
-
-    if(e.key === 'ArrowLeft'){
-        prevSlide();
-    }
-
-});
-
-/* Swipe Mobile */
-
-let touchStartX = 0;
-let touchEndX = 0;
-
-document.addEventListener('touchstart',e=>{
-    touchStartX = e.changedTouches[0].screenX;
-});
-
-document.addEventListener('touchend',e=>{
-
-    touchEndX = e.changedTouches[0].screenX;
-
-    if(touchEndX < touchStartX - 50){
-        nextSlide();
-    }
-
-    if(touchEndX > touchStartX + 50){
-        prevSlide();
-    }
-
-});
-
-/* Auto Slide */
-
-setInterval(()=>{
-    nextSlide();
-},9000);
 
 </script>
 
