@@ -3,229 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Somaport Elite Planning</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>Somaport Planning - RTG 8</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #00ffb3;
-            --bg-dark: #0a0f18;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --border: rgba(255, 255, 255, 0.1);
+            --dark-blue: #1e3a8a;
+            --light-blue: #dbeafe;
+            --accent: #2563eb;
+            --paper: #ffffff;
+            --text: #1f2937;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Cairo', sans-serif;
-            background: radial-gradient(circle at top right, #00ffb315, transparent), 
-                        linear-gradient(180deg, #0a0f18 0%, #16213e 100%);
-            color: white;
-            min-height: 100vh;
-            overflow-x: hidden;
-            padding-bottom: 50px;
+            background-color: #f3f4f6;
+            color: var(--text);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
         }
 
-        /* Header الراقي */
+        /* حاوية الورقة */
+        .paper-sheet {
+            background: var(--paper);
+            width: 100%;
+            max-width: 700px;
+            padding: 30px;
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+            border-top: 8px solid var(--dark-blue);
+        }
+
+        /* أيقونة الماكينة خلفية */
+        .rtg-bg-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 60px;
+            opacity: 0.1;
+        }
+
         header {
-            padding: 30px 20px;
             text-align: center;
-            background: rgba(0, 0, 0, 0.2);
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 30px;
+            border-bottom: 2px double #e5e7eb;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
         }
 
-        header h1 {
+        .company-name {
+            font-size: 26px;
             font-weight: 900;
-            font-size: 28px;
-            letter-spacing: 1px;
+            color: var(--dark-blue);
             text-transform: uppercase;
         }
 
-        header h1 span {
-            color: var(--primary);
-        }
-
-        .container {
-            padding: 0 15px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        /* Card التصميم الزجاجي */
-        .section-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border);
+        .planning-title {
+            font-size: 18px;
+            font-weight: 700;
+            background: var(--light-blue);
+            display: inline-block;
+            padding: 5px 20px;
             border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-top: 10px;
         }
 
-        .section-title {
+        .meta-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            font-weight: 700;
+            font-size: 15px;
+            color: #4b5563;
+            border-bottom: 1px solid #f3f4f6;
+            padding-bottom: 10px;
+        }
+
+        /* تصميم الجدول كأنه ورقة إدارية */
+        .section-header {
+            background: #f9fafb;
+            padding: 10px;
+            border-right: 4px solid var(--dark-blue);
+            margin-bottom: 15px;
+            font-weight: 900;
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 20px;
-            font-size: 20px;
-            border-bottom: 2px solid var(--primary);
-            width: fit-content;
-            padding-bottom: 5px;
-        }
-
-        /* تحسين الجداول */
-        .table-container {
-            overflow-x: auto;
-            border-radius: 12px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            background: rgba(255, 255, 255, 0.02);
+            margin-bottom: 25px;
         }
 
         th {
-            background: rgba(0, 255, 179, 0.15);
-            color: var(--primary);
-            padding: 15px;
-            font-size: 14px;
             text-align: center;
-            border: 1px solid var(--border);
+            padding: 12px;
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            font-size: 14px;
+            color: var(--dark-blue);
         }
 
         td {
-            padding: 15px;
+            padding: 12px;
             text-align: center;
-            border: 1px solid var(--border);
+            border: 1px solid #e5e7eb;
             font-size: 16px;
+            font-weight: 600;
         }
 
-        tr:nth-child(even) {
-            background: rgba(255, 255, 255, 0.03);
+        .highlight-row {
+            background-color: #f0fdf4;
         }
 
-        /* Badge المعلومات */
-        .info-pill {
-            display: inline-block;
-            padding: 5px 15px;
-            background: rgba(0, 255, 179, 0.1);
-            border: 1px solid var(--primary);
-            border-radius: 50px;
-            color: var(--primary);
-            font-size: 14px;
-            margin-top: 5px;
+        /* قسم الرخص */
+        .conge-box {
+            background: #fffbeb;
+            border: 1px dashed #f59e0b;
+            padding: 15px;
+            border-radius: 8px;
         }
 
-        /* Footer */
-        .footer {
+        .conge-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-badge {
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: #fef3c7;
+            color: #92400e;
+            font-weight: 700;
+        }
+
+        footer {
+            margin-top: 30px;
             text-align: center;
             font-size: 12px;
-            color: rgba(255,255,255,0.4);
-            margin-top: 40px;
+            color: #9ca3af;
+            border-top: 1px solid #f3f4f6;
+            padding-top: 10px;
         }
 
-        /* Animation */
-        .fade-in {
-            animation: fadeIn 0.8s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @media (max-width: 500px) {
+            .paper-sheet { padding: 15px; }
+            td, th { padding: 8px; font-size: 14px; }
+            .meta-info { flex-direction: column; gap: 5px; text-align: center; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="fade-in">
-            <h1>SOMAPORT <span>RTG 8</span></h1>
-            <div class="info-pill">الأحد 10 ماي 2026</div>
-        </div>
-    </header>
-
-    <div class="container">
+    <div class="paper-sheet">
+        <div class="rtg-bg-icon">🚜</div>
         
-        <!-- قسم التخطيط الأساسي -->
-        <div class="section-card fade-in">
-            <div class="section-title">🚜 حالة العمليات</div>
-            <p style="margin-bottom: 10px; color: #ccc;">تخطيط الرافعات لليوم:</p>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>الآلة</th>
-                            <th>الوضعية</th>
-                            <th>المسؤول</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>RTG N° 8</td>
-                            <td style="color: var(--primary);">خداشة</td>
-                            <td>Farih / Rmaili</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <header>
+            <div class="company-name">SOMAPORT CASABLANCA</div>
+            <div class="planning-title">تخطيط العمليات اليومي</div>
+        </header>
+
+        <div class="meta-info">
+            <div>📅 التاريخ: 10/05/2026 (الأحد)</div>
+            <div>🏗️ الآلة: RTG N° 8</div>
+        </div>
+
+        <div class="section-header">
+            <span>👥</span> لائحة الأطقم (Binômes)
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>الشريك الأول</th>
+                    <th>الشريك الثاني</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="highlight-row">
+                    <td>Farih</td>
+                    <td>Rmaili</td>
+                </tr>
+                <tr>
+                    <td>Mandour</td>
+                    <td>Banhadrya</td>
+                </tr>
+                <tr>
+                    <td>Amin</td>
+                    <td>Ousama</td>
+                </tr>
+                <tr>
+                    <td>Anbry</td>
+                    <td>Asli</td>
+                </tr>
+                <tr>
+                    <td>Bentata</td>
+                    <td>Madak</td>
+                </tr>
+                <tr>
+                    <td>Jaaouiani</td>
+                    <td>Errakhmi</td>
+                </tr>
+                <tr>
+                    <td>Lamnabbah</td>
+                    <td>Ramadan</td>
+                </tr>
+                <tr>
+                    <td>Zaoui</td>
+                    <td>Mabsout</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="section-header">
+            <span>🏖️</span> الرخص والغيابات (Congé)
+        </div>
+
+        <div class="conge-box">
+            <div class="conge-item">
+                <div>
+                    <strong>Balhawi</strong> 
+                    <span class="status-badge">Sortie: Lundi</span>
+                </div>
+                <div style="color: #b45309; font-size: 14px;">
+                    Entrée: Lundi (3ème)
+                </div>
             </div>
         </div>
 
-        <!-- قسم الشركاء -->
-        <div class="section-card fade-in">
-            <div class="section-title">👥 قائمة الثنائيات (Binômes)</div>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>الشريك 1</th>
-                            <th>الشريك 2</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Farih</td><td>Rmaili</td></tr>
-                        <tr><td>Mandour</td><td>Banhadrya</td></tr>
-                        <tr><td>Amin</td><td>Ousama</td></tr>
-                        <tr><td>Anbry</td><td>Asli</td></tr>
-                        <tr><td>Bentata</td><td>Madak</td></tr>
-                        <tr><td>Jaaouiani</td><td>Errakhmi</td></tr>
-                        <tr><td>Lamnabbah</td><td>Ramadan</td></tr>
-                        <tr><td>Zaoui</td><td>Mabsout</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- قسم الرخص -->
-        <div class="section-card fade-in">
-            <div class="section-title">🏖️ رخص الغياب</div>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>الإسم</th>
-                            <th>يوم الخروج</th>
-                            <th>الرجوع</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Balhawi</td>
-                            <td>الإثنين</td>
-                            <td>الإثنين (ليلاً)</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="footer">
-            © 2026 Somaport Planning Tool • Created for Elite Operations
-        </div>
+        <footer>
+            SOMAPORT • قسم الـ RTG • وثيقة رسمية للاستخدام الداخلي
+        </footer>
     </div>
 
 </body>
