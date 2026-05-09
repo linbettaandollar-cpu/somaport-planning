@@ -3,23 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RTG Planning - Fullscreen</title>
+    <title>Somaport Planning Premium</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=Outfit:wght@900&display=swap" rel="stylesheet">
     <style>
-        :root { --blue: #003366; --orange: #ff6600; }
+        :root { --blue: #003366; --orange: #ff6600; --white: #ffffff; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body { 
-            background: #000; 
+            background: #0f172a; 
             font-family: 'Cairo', sans-serif; 
-            overflow: hidden; /* منع السكرول العادي */
+            overflow: hidden; 
         }
 
-        /* حاوية السلايدر */
         .slider-container {
             height: 100vh;
             overflow-y: scroll;
-            scroll-snap-type: y mandatory; /* نظام الصفحات */
+            scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
         }
 
@@ -31,88 +30,51 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 30px;
             position: relative;
-            padding: 40px;
-            background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
-            border-bottom: 2px solid rgba(0,0,0,0.1);
-        }
-
-        /* لوغو SOMAPORT ثابت فكل صفحة */
-        .page-header {
-            position: absolute;
-            top: 40px;
-            text-align: center;
-        }
-
-        .logo {
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.8rem;
-            color: var(--blue);
-            letter-spacing: -1px;
-        }
-
-        .binome-title {
-            font-size: 2.5rem;
-            color: var(--orange);
-            font-weight: 900;
-            margin-bottom: 30px;
-            text-transform: uppercase;
-        }
-
-        .names-card {
-            background: white;
-            padding: 40px 20px;
-            border-radius: 30px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            border-top: 10px solid var(--blue);
-        }
-
-        .p-name {
-            display: block;
-            font-size: 2.2rem;
-            color: #1e293b;
-            margin: 15px 0;
-            font-weight: 800;
-        }
-
-        .divider {
-            height: 2px;
-            background: #e2e8f0;
-            width: 60%;
-            margin: 0 auto;
-        }
-
-        /* ستايل خاص بالعطلة */
-        .conge-slide {
-            background: linear-gradient(135deg, #fff1f2 0%, #fff 100%);
-        }
-        .conge-slide .binome-title { color: #e11d48; }
-        .conge-card { border-top-color: #e11d48; }
-        .arabic-info {
-            font-size: 1.5rem;
-            color: #475569;
-            direction: rtl;
-            line-height: 1.8;
-        }
-
-        #loader {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
             color: white;
-            font-size: 1.5rem;
+            text-align: center;
         }
 
-        .scroll-hint {
+        /* الصفحة الأولى - الواجهة */
+        .hero-title { font-family: 'Outfit', sans-serif; font-size: 3.5rem; color: var(--orange); margin-bottom: 10px; }
+        .hero-sub { font-size: 2rem; font-weight: 900; color: var(--white); margin-bottom: 20px; }
+        .hero-date { background: var(--blue); padding: 10px 30px; border-radius: 50px; font-size: 1.2rem; border: 2px solid var(--orange); }
+
+        /* ستايل إطار العمال */
+        .worker-cadre {
+            background: var(--white);
+            width: 100%;
+            max-width: 350px;
+            padding: 50px 20px;
+            border-radius: 40px;
+            border: 8px solid var(--blue);
+            box-shadow: 0 0 30px rgba(255, 102, 0, 0.2);
+            position: relative;
+        }
+        .binome-num { 
+            position: absolute; 
+            top: -25px; 
+            background: var(--orange); 
+            padding: 5px 25px; 
+            border-radius: 15px; 
+            font-size: 1.4rem;
+            font-weight: 900;
+        }
+        .worker-name { color: #1e293b; font-size: 2.5rem; font-weight: 900; margin: 10px 0; display: block; }
+        .vs-line { height: 3px; background: #cbd5e1; width: 50%; margin: 15px auto; }
+
+        /* صفحة التحفيز */
+        .moto-card { border: 4px dashed var(--orange); padding: 30px; border-radius: 30px; }
+        .moto-text { font-size: 1.8rem; line-height: 1.6; color: var(--orange); }
+
+        .scroll-down {
             position: absolute;
-            bottom: 20px;
-            color: #94a3b8;
-            font-size: 0.9rem;
+            bottom: 30px;
             animation: bounce 2s infinite;
+            font-size: 0.9rem;
+            color: #64748b;
         }
 
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
@@ -120,20 +82,34 @@
 </head>
 <body>
 
-    <div id="loader">جاري التحميل...</div>
-    <div class="slider-container" id="slider"></div>
+    <div id="slider" class="slider-container">
+        <!-- الصفحة 1: الواجهة -->
+        <div class="slide">
+            <h1 class="hero-title">SOMAPORT</h1>
+            <h2 class="hero-sub">(8) RTG PLANNING</h2>
+            <div class="hero-date" id="today-date">...</div>
+            <div class="scroll-down">اسحب للأعلى للبدء ↓</div>
+        </div>
+
+        <!-- هنا غيتحطو صفحات العمال أوتوماتيكيا -->
+
+        <!-- الصفحة الأخيرة: التحفيز (غتزاد أوتوماتيكيا فالتالي) -->
+    </div>
 
     <script>
         const apiURL = "https://api.sheetbest.com/sheets/b6e3ae1f-2190-406c-8264-091975545af0";
 
-        async function loadPlanning() {
+        // تحديث التاريخ بالعر بية
+        const dateOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+        document.getElementById('today-date').innerText = new Date().toLocaleDateString('ar-MA', dateOptions);
+
+        async function loadApp() {
             try {
                 const res = await fetch(apiURL);
                 const data = await res.json();
                 const slider = document.getElementById('slider');
-                document.getElementById('loader').style.display = 'none';
 
-                data.forEach((item, index) => {
+                data.forEach((item) => {
                     const clean = (key) => {
                         const found = Object.keys(item).find(k => k.trim() === key);
                         return found ? item[found] : '';
@@ -147,47 +123,59 @@
 
                     const isConge = bNumber.toUpperCase().includes('CONGÉ');
                     
-                    let content = '';
+                    let slideContent = '';
                     if(isConge) {
-                        // ترجمة معلومات العطلة للعربية
-                        const arabicP2 = p2.replace('In:', 'دخول:').replace('Out:', 'خروج:').replace('Lundi', 'الإثنين');
-                        content = `
-                            <div class="names-card conge-card">
-                                <span class="p-name">${p1}</span>
-                                <div class="divider"></div>
-                                <div class="arabic-info" style="margin-top:20px;">
-                                    ${arabicP2}
+                        // صفحة العطلة
+                        slideContent = `
+                            <div class="slide" style="background: linear-gradient(180deg, #450a0a 0%, #0f172a 100%);">
+                                <div class="worker-cadre" style="border-color: #ef4444;">
+                                    <div class="binome-num" style="background: #ef4444;">وضعية العطلة</div>
+                                    <span class="worker-name">${p1}</span>
+                                    <div class="vs-line"></div>
+                                    <div style="color:#475569; font-size:1.5rem; direction:rtl;">
+                                        ${p2.replace('In:', 'دخول:').replace('Out:', 'خروج:').replace('Lundi', 'الإثنين')}
+                                    </div>
                                 </div>
                             </div>
                         `;
                     } else {
-                        content = `
-                            <div class="names-card">
-                                <span class="p-name">${p1}</span>
-                                <div class="divider"></div>
-                                <span class="p-name">${p2}</span>
+                        // صفحات العمال
+                        slideContent = `
+                            <div class="slide">
+                                <div class="worker-cadre">
+                                    <div class="binome-num">${bNumber}</div>
+                                    <span class="worker-name">${p1}</span>
+                                    <div class="vs-line"></div>
+                                    <span class="worker-name">${p2}</span>
+                                </div>
                             </div>
                         `;
                     }
-
-                    const slideHtml = `
-                        <div class="slide ${isConge ? 'conge-slide' : ''}">
-                            <div class="page-header">
-                                <h1 class="logo">SOMAPORT</h1>
-                            </div>
-                            <h2 class="binome-title">${bNumber}</h2>
-                            ${content}
-                            <div class="scroll-hint">اسحب للأعلى لرؤية المزيد ↓</div>
-                        </div>
-                    `;
-                    slider.innerHTML += slideHtml;
+                    slider.innerHTML += slideContent;
                 });
+
+                // إضافة صفحة التحفيز فالتالي
+                const motivationSlide = `
+                    <div class="slide" style="background: #0f172a;">
+                        <div class="moto-card">
+                            <h2 style="color:white; margin-bottom:20px;">نصيحة اليوم</h2>
+                            <p class="moto-text">
+                                👷‍♂️ السلامة أولاً.. رد بالك على راسك وعلى خوتك <br><br>
+                                ✨ يوم عمل سعيد وموفق للجميع <br><br>
+                                💪 خدم بقلبك، ربي كيشوف كولشي
+                            </p>
+                        </div>
+                        <div style="margin-top:40px; color:#64748b;">SOMAPORT RTG TEAM 2026</div>
+                    </div>
+                `;
+                slider.innerHTML += motivationSlide;
+
             } catch (e) {
-                document.getElementById('loader').innerText = "خطأ في الاتصال";
+                console.log("Error");
             }
         }
 
-        loadPlanning();
+        loadApp();
     </script>
 </body>
 </html>
