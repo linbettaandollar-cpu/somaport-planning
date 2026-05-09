@@ -4,19 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Somaport Elite Planning</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <!-- خطوط احترافية -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;600;900&family=Montserrat:wght@100;400;900&display=swap" rel="stylesheet">
+    
     <style>
-        :root {
-            --gold: #c5a059;
-            --glass: rgba(255, 255, 255, 0.85);
+        :root { --gold: #c5a059; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body, html { 
+            height: 100%; 
+            background: #000; 
+            font-family: 'Cairo', sans-serif;
+            overflow-x: hidden;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
-        
-        body { background-color: #000; color: #1a1a1a; overflow-x: hidden; }
-
-        /* حاوية السلايدر */
-        .slider {
+        /* حاوية السكرول */
+        .snap-container {
             height: 100vh;
             overflow-y: scroll;
             scroll-snap-type: y mandatory;
@@ -30,168 +33,146 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed; /* كيعطي إحساس بالعمق بحال Bamboo */
+            overflow: hidden;
         }
 
-        /* إضافة صور HD من مواقع عالمية (تقدر تبدلها بتصاور حقيقيين) */
-        .slide:nth-child(1) { background-image: url('https://images.unsplash.com/photo-1510673398445-94f476ef2cbc?q=80&w=2068&auto=format&fit=crop'); }
-        .slide:nth-child(even) { background-image: url('https://images.unsplash.com/photo-1520102188090-c8b80c55c472?q=80&w=2070&auto=format&fit=crop'); }
-        .slide:nth-child(odd) { background-image: url('https://images.unsplash.com/photo-1494412574005-06788647cc54?q=80&w=2070&auto=format&fit=crop'); }
+        /* طبقة الصورة الخلفية HD */
+        .bg-image {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; /* هادي هي اللي كتخلي الصورة تبان HD ومقادة */
+            z-index: -1;
+            filter: brightness(0.6); /* باش الكلمات يبانو بوضوح */
+        }
 
-        /* إطار المعلومات (Glass Effect) */
-        .glass-card {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            padding: 50px 30px;
-            width: 85%;
+        /* إطار المعلومات المستوحى من Bamboo */
+        .content-card {
+            background: rgba(255, 255, 255, 0.08); /* زجاج شفاف جداً */
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 60px 40px;
+            width: 90%;
             max-width: 450px;
             text-align: center;
-            border-radius: 2px; /* حواف حادة بحال Bamboo */
-            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
         }
 
-        .brand {
-            font-size: 2.2rem;
+        .logo {
+            font-family: 'Montserrat', sans-serif;
             font-weight: 900;
-            letter-spacing: 6px;
-            color: #000;
-            margin-bottom: 5px;
+            letter-spacing: 8px;
+            font-size: 2rem;
+            margin-bottom: 10px;
         }
 
-        .binome-tag {
-            font-size: 0.8rem;
+        .category {
             color: var(--gold);
-            letter-spacing: 3px;
-            font-weight: 700;
             text-transform: uppercase;
-            margin-bottom: 30px;
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            font-weight: 600;
+            margin-bottom: 40px;
             display: block;
         }
 
-        .worker-name {
-            font-size: 2.4rem;
-            font-weight: 300; /* خط رقيق وأنيق */
-            color: #1a1a1a;
-            margin: 10px 0;
-            display: block;
+        .names {
+            font-weight: 300;
+            font-size: 2.2rem;
+            line-height: 1.4;
+            margin: 20px 0;
         }
 
-        .separator {
-            width: 40px;
+        .line {
+            width: 30px;
             height: 1px;
             background: var(--gold);
-            margin: 25px auto;
+            margin: 30px auto;
         }
 
-        /* صفحة العطلة الاستثنائية */
-        .conge-card {
-            background: rgba(18, 18, 18, 0.9);
-            color: white;
-            border: 1px solid var(--gold);
-        }
-        .conge-card .worker-name { color: white; }
-        .conge-card .brand { color: white; }
+        /* صفحة العطلة */
+        .conge-style { border-color: #ff4d4d; }
+        .conge-text { color: #ff4d4d; font-weight: 600; }
 
-        .scroll-indicator {
-            position: absolute;
-            bottom: 30px;
-            color: white;
-            font-size: 0.7rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            opacity: 0.7;
+        /* Loader */
+        #loader {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: #000; color: white; display: flex;
+            justify-content: center; align-items: center; z-index: 999;
         }
-
-        #loading { height: 100vh; display: flex; justify-content: center; align-items: center; color: white; background: #000; }
     </style>
 </head>
 <body>
 
-    <div id="loading">RTG 8 ELITE...</div>
-    <div class="slider" id="main-slider">
-        <!-- الواجهة الترحيبية -->
-        <div class="slide">
-            <div class="glass-card">
-                <h1 class="brand">SOMAPORT</h1>
-                <span class="binome-tag">RTG 8 Planning</span>
-                <div class="separator"></div>
-                <p id="today-date" style="font-weight: 300; font-size: 1.1rem;"></p>
-            </div>
-            <div class="scroll-indicator">اسحب للاكتشاف ↓</div>
+<div id="loader">SOMAPORT ELITE LOADING...</div>
+
+<div class="snap-container" id="app">
+    <!-- الصفحة الأولى (مثال ثابت) -->
+    <div class="slide">
+        <img class="bg-image" src="https://images.unsplash.com/photo-1570114000300-843e18ec33e4?auto=format&fit=crop&q=80&w=1600" alt="background">
+        <div class="content-card">
+            <div class="logo">SOMAPORT</div>
+            <span class="category">RTG 8 Planning</span>
+            <div class="line"></div>
+            <div class="names" id="main-date" style="font-size: 1.2rem;">...</div>
         </div>
     </div>
+</div>
 
-    <script>
-        const API = "https://api.sheetbest.com/sheets/b6e3ae1f-2190-406c-8264-091975545af0";
+<script>
+    const API = "https://api.sheetbest.com/sheets/b6e3ae1f-2190-406c-8264-091975545af0";
+    
+    // مجموعة صور HD للميناء والآليات
+    const images = [
+        "https://images.unsplash.com/photo-1494412574005-06788647cc54?auto=format&fit=crop&q=80&w=1600",
+        "https://images.unsplash.com/photo-1520102188090-c8b80c55c472?auto=format&fit=crop&q=80&w=1600",
+        "https://images.unsplash.com/photo-1516216628859-9bccecab13ca?auto=format&fit=crop&q=80&w=1600",
+        "https://images.unsplash.com/photo-1510673398445-94f476ef2cbc?auto=format&fit=crop&q=80&w=1600"
+    ];
 
-        // التاريخ
-        const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-        document.getElementById('today-date').innerText = new Date().toLocaleDateString('ar-MA', options);
+    document.getElementById('main-date').innerText = new Date().toLocaleDateString('ar-MA', {weekday:'long', day:'numeric', month:'long'});
 
-        async function init() {
-            try {
-                const res = await fetch(API);
-                const data = await res.json();
-                const slider = document.getElementById('main-slider');
-                document.getElementById('loading').style.display = 'none';
+    async function load() {
+        try {
+            const res = await fetch(API);
+            const data = await res.json();
+            const app = document.getElementById('app');
+            document.getElementById('loader').style.display = 'none';
 
-                data.forEach(item => {
-                    const get = (k) => {
-                        const key = Object.keys(item).find(s => s.trim() === k);
-                        return key ? item[key] : '';
-                    };
+            data.forEach((item, index) => {
+                const get = (k) => {
+                    const key = Object.keys(item).find(s => s.trim() === k);
+                    return key ? item[key] : '';
+                };
 
-                    const b = get('binome_number');
-                    const p1 = get('partner1');
-                    const p2 = get('partner2');
+                const b = get('binome_number');
+                const p1 = get('partner1');
+                const p2 = get('partner2');
 
-                    if(!b && !p1) return;
+                if(!b && !p1) return;
 
-                    const isC = b.toUpperCase().includes('CONGÉ');
-                    
-                    const slide = document.createElement('div');
-                    slide.className = 'slide';
-                    
-                    slide.innerHTML = `
-                        <div class="glass-card ${isC ? 'conge-card' : ''}">
-                            <h2 class="brand">SOMAPORT</h2>
-                            <span class="binome-tag">${isC ? 'OFF DUTY / عطلة' : 'Binôme ' + b}</span>
-                            <span class="worker-name">${p1}</span>
-                            <div class="separator"></div>
-                            <span class="worker-name" style="${isC ? 'font-size: 1.2rem; color: var(--gold);' : ''}">
+                const isC = b.toUpperCase().includes('CONGÉ');
+                const imgUrl = images[index % images.length]; // تبديل الصور أوتوماتيكياً
+
+                const slide = `
+                    <div class="slide">
+                        <img class="bg-image" src="${imgUrl}" alt="bg">
+                        <div class="content-card ${isC ? 'conge-style' : ''}">
+                            <div class="logo">SOMAPORT</div>
+                            <span class="category">${isC ? 'OFF DUTY' : 'Binôme ' + b}</span>
+                            <div class="names">${p1}</div>
+                            <div class="line"></div>
+                            <div class="names" style="${isC ? 'font-size:1.5rem; color:var(--gold);' : ''}">
                                 ${isC ? p2.replace('In:', 'دخول:').replace('Out:', 'خروج:') : p2}
-                            </span>
+                            </div>
                         </div>
-                    `;
-                    slider.appendChild(slide);
-                });
-
-                // صفحة النهاية (Motivation)
-                const endSlide = document.createElement('div');
-                endSlide.className = 'slide';
-                endSlide.style.backgroundImage = "url('https://images.unsplash.com/photo-1544333346-64e4fe18274b?q=80&w=2070&auto=format&fit=crop')";
-                endSlide.innerHTML = `
-                    <div class="glass-card" style="background: rgba(0,0,0,0.8); color: white;">
-                        <h2 class="brand" style="color:white;">SAFETY FIRST</h2>
-                        <div class="separator"></div>
-                        <p style="font-weight: 300; line-height: 1.8;">
-                            سلامتكم هي أولويتنا.<br>
-                            يوم عمل سعيد ومليء بالنجاح لفريقنا.<br>
-                        </p>
-                        <div class="separator"></div>
-                        <span style="color: var(--gold); font-size: 0.8rem;">RTG 8 • ELITE CREW</span>
                     </div>
                 `;
-                slider.appendChild(endSlide);
-
-            } catch (e) {
-                console.log("Error loading data");
-            }
-        }
-        init();
-    </script>
+                app.innerHTML += slide;
+            });
+        } catch(e) { console.log(e); }
+    }
+    load();
+</script>
 </body>
 </html>
