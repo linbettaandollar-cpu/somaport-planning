@@ -1,189 +1,191 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Somaport Elite Planning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00ffb3;
+            --bg-dark: #0a0f18;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+        }
 
-<title>Somaport RTG Planning</title>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: radial-gradient(circle at top right, #00ffb315, transparent), 
+                        linear-gradient(180deg, #0a0f18 0%, #16213e 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: 50px;
+        }
 
-<style>
-:root{
-    --green:#00d084;
-    --green2:#00ffb3;
-    --navy:#081120;
-    --navy2:#10233f;
-    --white:#ffffff;
-    --glass:rgba(255,255,255,0.08);
-}
+        /* Header الراقي */
+        header {
+            padding: 30px 20px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+        header h1 {
+            font-weight: 900;
+            font-size: 28px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
 
-body{
-    font-family:'Cairo',sans-serif;
-    /* حيدنا التجميد ديال الشاشة باش نقدروا نسكروليو فالتليفون */
-    overflow-x:hidden; 
-    background:
-    radial-gradient(circle at top right,#00d08422,transparent 25%),
-    radial-gradient(circle at bottom left,#00ffb322,transparent 25%),
-    linear-gradient(135deg,#040b16,#081120,#10233f);
-    color:white;
-    min-height: 100vh;
-}
+        header h1 span {
+            color: var(--primary);
+        }
 
-/* تحسين السلايدر باش يجي مقاد مع التليفون */
-.slider{
-    width:100vw;
-    min-height:100vh;
-    position:relative;
-}
+        .container {
+            padding: 0 15px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-.slide{
-    position:absolute;
-    inset:0;
-    display:none; /* استعملنا none باش ما يتراكبوش فالتليفون */
-    justify-content:center;
-    align-items:flex-start; /* يبدا من الفوق */
-    padding:20px;
-    transition:0.5s ease;
-}
+        /* Card التصميم الزجاجي */
+        .section-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
 
-.slide.active{
-    display:flex;
-    opacity:1;
-    animation: fadeIn 0.5s;
-}
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 20px;
+            border-bottom: 2px solid var(--primary);
+            width: fit-content;
+            padding-bottom: 5px;
+        }
 
-@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+        /* تحسين الجداول */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 12px;
+        }
 
-.card{
-    width:100%;
-    max-width:1350px;
-    min-height:auto;
-    background:rgba(255,255,255,0.06);
-    backdrop-filter:blur(25px);
-    border:1px solid rgba(255,255,255,0.12);
-    border-radius:25px;
-    padding:25px;
-    margin-top: 60px; /* بلاصة النقط ديال الترتيب */
-    margin-bottom: 80px; /* بلاصة الأسهم */
-    position:relative;
-    box-shadow: 0 0 30px rgba(0,0,0,0.4);
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.02);
+        }
 
-.topbar{
-    flex-direction: column;
-    gap: 15px;
-    text-align: center;
-    margin-bottom:30px;
-}
+        th {
+            background: rgba(0, 255, 179, 0.15);
+            color: var(--primary);
+            padding: 15px;
+            font-size: 14px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
 
-.logo-text h1{ font-size:24px; }
-.badge{ font-size:14px; padding:8px 15px; }
+        td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid var(--border);
+            font-size: 16px;
+        }
 
-.hero{
-    display:grid;
-    grid-template-columns:1fr; /* يولي سطر واحد فالتليفون */
-    gap:25px;
-}
+        tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.03);
+        }
 
-.title{ font-size:32px; text-align:center; }
-.desc{ font-size:16px; text-align:center; line-height:1.6; }
+        /* Badge المعلومات */
+        .info-pill {
+            display: inline-block;
+            padding: 5px 15px;
+            background: rgba(0, 255, 179, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 50px;
+            color: var(--primary);
+            font-size: 14px;
+            margin-top: 5px;
+        }
 
-.info-grid{ grid-template-columns:1fr; gap:15px; }
-.info-box{ padding:15px; text-align:center; }
-.info-value{ font-size:22px; }
+        /* Footer */
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            margin-top: 40px;
+        }
 
-.rtg-card{ height:250px; border-radius:20px; }
-.rtg-icon{ font-size:60px; }
-.rtg-name{ font-size:40px; }
+        /* Animation */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
 
-.slide-title{ font-size:26px; margin-bottom:20px; text-align:center; }
-
-/* أهم جزء: تحسين الجداول للتليفون */
-.table-wrap{
-    overflow-x:auto;
-    border-radius:15px;
-    -webkit-overflow-scrolling: touch;
-}
-
-table{ width:100%; min-width: 300px; }
-th, td { padding:12px; font-size:14px; }
-
-.nav{ bottom:15px; }
-.nav button{ width:50px; height:50px; font-size:18px; }
-
-.pagination{ top:15px; }
-.dot{ width:8px; height:8px; }
-.dot.active{ width:30px; }
-
-/* تعديلات خاصة بالشاشات الكبيرة (PC) */
-@media(min-width:1000px){
-    .topbar { flex-direction: row; text-align: right; }
-    .hero { grid-template-columns: 1.1fr 0.9fr; }
-    .title { font-size: 64px; text-align: right; }
-    .desc { text-align: right; }
-    .info-grid { grid-template-columns: repeat(2,1fr); }
-    .slide-title { font-size: 48px; text-align: right; }
-    .card { padding: 50px; }
-    th, td { font-size: 20px; padding: 24px; }
-}
-</style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
-
 <body>
-<div class="pagination">
-    <div class="dot active"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-</div>
 
-<div class="slider">
-    <!-- SLIDE 1 -->
-    <section class="slide active">
-        <div class="card">
-            <div class="topbar">
-                <div class="logo">
-                    <div class="logo-circle">🚜</div>
-                    <div class="logo-text">
-                        <h1>شركة Somaport</h1>
-                        <p>قسم عمليات RTG</p>
-                    </div>
-                </div>
-                <div class="badge">Planning Dashboard</div>
-            </div>
-            <div class="hero">
-                <div>
-                    <div class="title">تخطيط <span>RTG N° 8</span><br>ليوم الأحد</div>
-                    <div class="desc">منصة حديثة لتخطيط وتنظيم فرق العمل الخاصة بقسم الـ RTG داخل شركة Somaport.</div>
-                    <div class="info-grid">
-                        <div class="info-box"><div class="info-label">📅 التاريخ</div><div class="info-value">10/05/2026</div></div>
-                        <div class="info-box"><div class="info-label">🚜 الآلة</div><div class="info-value">RTG N° 8</div></div>
-                    </div>
-                </div>
-                <div class="rtg-visual">
-                    <div class="rtg-card">
-                        <div class="rtg-icon">🚜</div>
-                        <div class="rtg-name">RTG 8</div>
-                        <div class="rtg-sub">SOMAPORT OPERATIONS</div>
-                    </div>
-                </div>
+    <header>
+        <div class="fade-in">
+            <h1>SOMAPORT <span>RTG 8</span></h1>
+            <div class="info-pill">الأحد 10 ماي 2026</div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- قسم التخطيط الأساسي -->
+        <div class="section-card fade-in">
+            <div class="section-title">🚜 حالة العمليات</div>
+            <p style="margin-bottom: 10px; color: #ccc;">تخطيط الرافعات لليوم:</p>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>الآلة</th>
+                            <th>الوضعية</th>
+                            <th>المسؤول</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>RTG N° 8</td>
+                            <td style="color: var(--primary);">خداشة</td>
+                            <td>Farih / Rmaili</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </section>
 
-    <!-- SLIDE 2 -->
-    <section class="slide">
-        <div class="card">
-            <div class="slide-title">👥 قائمة <span>الشركاء</span></div>
-            <div class="table-wrap">
+        <!-- قسم الشركاء -->
+        <div class="section-card fade-in">
+            <div class="section-title">👥 قائمة الثنائيات (Binômes)</div>
+            <div class="table-container">
                 <table>
-                    <thead><tr><th>الشريك الأول</th><th>الشريك الثاني</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th>الشريك 1</th>
+                            <th>الشريك 2</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         <tr><td>Farih</td><td>Rmaili</td></tr>
                         <tr><td>Mandour</td><td>Banhadrya</td></tr>
@@ -197,58 +199,34 @@ th, td { padding:12px; font-size:14px; }
                 </table>
             </div>
         </div>
-    </section>
 
-    <!-- SLIDE 3 -->
-    <section class="slide">
-        <div class="card">
-            <div class="slide-title">🏖️ وضعية <span>الرخص</span></div>
-            <div class="table-wrap">
+        <!-- قسم الرخص -->
+        <div class="section-card fade-in">
+            <div class="section-title">🏖️ رخص الغياب</div>
+            <div class="table-container">
                 <table>
-                    <thead><tr><th>الإسم</th><th>الخروج</th><th>الدخول</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th>الإسم</th>
+                            <th>يوم الخروج</th>
+                            <th>الرجوع</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr><td>Balhawi</td><td>الإثنين</td><td>الإثنين بليل</td></tr>
+                        <tr>
+                            <td>Balhawi</td>
+                            <td>الإثنين</td>
+                            <td>الإثنين (ليلاً)</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-    </section>
-</div>
 
-<div class="nav">
-    <button onclick="prevSlide()">❮</button>
-    <button onclick="nextSlide()">❯</button>
-</div>
+        <div class="footer">
+            © 2026 Somaport Planning Tool • Created for Elite Operations
+        </div>
+    </div>
 
-<script>
-const slides = document.querySelectorAll('.slide');
-const dots = document.querySelectorAll('.dot');
-let current = 0;
-
-function updateSlides(){
-    slides.forEach((slide,index)=>{
-        slide.classList.remove('active');
-        dots[index].classList.remove('active');
-        if(index === current){
-            slide.classList.add('active');
-            dots[index].classList.add('active');
-        }
-    });
-}
-
-function nextSlide(){
-    current++;
-    if(current >= slides.length){ current = 0; }
-    updateSlides();
-}
-
-function prevSlide(){
-    current--;
-    if(current < 0){ current = slides.length - 1; }
-    updateSlides();
-}
-
-setInterval(()=> { nextSlide(); }, 9000);
-</script>
 </body>
 </html>
