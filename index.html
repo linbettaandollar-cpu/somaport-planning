@@ -3,151 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planning RTG 8 - Somaport</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>Somaport Planning | Premium Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --blue: #003366; --orange: #ff6600; --light-bg: #f8fafc; }
+        :root {
+            --bamboo-dark: #1a1a1a;
+            --bamboo-gold: #c5a059; /* لون ذهبي خفيف بحال Bamboo */
+            --bamboo-grey: #f9f9f9;
+            --text-main: #333333;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
-        body { background: var(--light-bg); color: #333; padding-bottom: 50px; }
-
-        /* الهيدر - بحال ترويسة الـ PDF */
-        .pdf-header {
-            background: var(--blue); color: white; padding: 30px 20px;
-            text-align: center; border-bottom: 8px solid var(--orange);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        .pdf-header h1 { font-size: 2.2rem; font-weight: 900; letter-spacing: 1px; }
-        .info-bar { 
-            background: rgba(255,255,255,0.1); display: inline-block; 
-            margin-top: 15px; padding: 5px 20px; border-radius: 5px; font-weight: bold;
+        
+        body { 
+            background-color: white; 
+            color: var(--text-main);
+            line-height: 1.6;
         }
 
-        /* حاوية الجداول */
-        .main-content { max-width: 900px; margin: 30px auto; padding: 0 15px; }
+        /* Header Style Bamboo */
+        header {
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
 
-        /* ستايل الجدول */
-        .planning-table {
-            width: 100%; border-collapse: collapse; background: white;
-            border-radius: 10px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        .brand {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: var(--bamboo-dark);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .sub-brand {
+            font-size: 0.9rem;
+            color: var(--bamboo-gold);
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .date-display {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: #888;
+            font-weight: 300;
+        }
+
+        /* Planning Section */
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
             margin-bottom: 30px;
+            text-align: center;
+            font-weight: 400;
+            position: relative;
         }
-        .planning-table th { 
-            background: #e2e8f0; color: var(--blue); padding: 15px; 
-            text-align: center; font-size: 1.1rem; border-bottom: 2px solid #cbd5e1;
-        }
-        .planning-table td { padding: 18px; border-bottom: 1px solid #f1f5f9; text-align: center; font-size: 1.3rem; font-weight: 700; }
-        .binome-cell { background: #f8fafc; color: var(--orange); font-weight: 900; width: 30%; border-left: 1px solid #f1f5f9; }
 
-        /* قسم العطلة (Congé) */
-        .conge-section {
-            background: #fff1f2; border: 2px solid #fb7185;
-            padding: 20px; border-radius: 10px; margin-top: 20px;
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background: var(--bamboo-gold);
+            margin: 10px auto;
         }
-        .conge-header { color: #be123c; font-weight: 900; font-size: 1.4rem; margin-bottom: 10px; border-bottom: 2px solid #fecdd3; padding-bottom: 5px; }
 
-        /* الفوتر - رسائل التحفيز */
-        .footer-msg {
-            background: white; border-right: 6px solid var(--orange);
-            padding: 25px; margin-top: 30px; border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        .worker-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 0;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
         }
-        .footer-msg h3 { color: var(--blue); margin-bottom: 10px; }
-        .safety-tip { color: #059669; font-weight: bold; font-size: 1.1rem; }
 
-        #loading { text-align: center; padding: 50px; font-size: 1.5rem; font-weight: bold; color: var(--blue); }
+        .worker-card:hover {
+            padding-right: 10px;
+            border-bottom-color: var(--bamboo-gold);
+        }
+
+        .binome-info {
+            flex: 1;
+        }
+
+        .binome-tag {
+            font-size: 0.75rem;
+            color: var(--bamboo-gold);
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .names-group {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--bamboo-dark);
+        }
+
+        .names-group span {
+            color: #ccc;
+            font-weight: 300;
+            margin: 0 10px;
+        }
+
+        /* Congé Section */
+        .conge-box {
+            margin-top: 50px;
+            background: var(--bamboo-grey);
+            padding: 40px;
+            text-align: center;
+            border-radius: 2px;
+        }
+
+        .conge-box h3 {
+            color: #e63946;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        /* Footer Motivation */
+        footer {
+            padding: 80px 20px;
+            background: var(--bamboo-dark);
+            color: white;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .quote {
+            font-style: italic;
+            font-size: 1.2rem;
+            max-width: 500px;
+            margin: 0 auto 20px;
+            font-weight: 300;
+        }
+
+        .safety-badge {
+            display: inline-block;
+            border: 1px solid var(--bamboo-gold);
+            padding: 5px 20px;
+            color: var(--bamboo-gold);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        #loader { text-align: center; padding: 40px; color: var(--bamboo-gold); }
     </style>
 </head>
 <body>
 
-    <div class="pdf-header">
-        <h1>SOMAPORT</h1>
-        <div style="font-size: 1.4rem; font-weight: bold; margin-top: 5px;">RTG (8) PLANNING</div>
-        <div class="info-bar" id="date-now">...</div>
-    </div>
+    <header>
+        <div class="brand">SOMAPORT</div>
+        <div class="sub-brand">RTG 8 • ELITE CREW</div>
+        <div class="date-display" id="date-text">...</div>
+    </header>
 
-    <div class="main-content">
-        <div id="loading">⏳ جاري تحميل البيانات...</div>
+    <div class="container">
+        <h2 class="section-title">برنامج العمل اليومي</h2>
         
-        <table class="planning-table" id="table-area" style="display: none;">
-            <thead>
-                <tr>
-                    <th>الفريق</th>
-                    <th>العامل الأول</th>
-                    <th>العامل الثاني</th>
-                </tr>
-            </thead>
-            <tbody id="worker-list">
-                <!-- البيانات غتحط هنا -->
-            </tbody>
-        </table>
+        <div id="loader">جاري تحميل البيانات الفاخرة...</div>
+        <div id="planning-list"></div>
 
-        <div id="conge-area" style="display: none;"></div>
-
-        <div class="footer-msg">
-            <h3>💡 ملاحظات السلامة والتحفيز:</h3>
-            <p class="safety-tip">👷‍♂️ السلامة أولاً: تأكد من ارتداء خوذة الأمان وسترة العمل قبل البدء.</p>
-            <p style="margin-top: 10px; line-height: 1.6;">✨ يوم عمل سعيد وموفق لجميع أفراد فريق RTG 8. النجاح يبدأ بالتركيز والتعاون.</p>
-        </div>
+        <div id="conge-section" style="display: none;"></div>
     </div>
+
+    <footer>
+        <p class="quote">"النجاح ليس صدفة، بل هو نتيجة التركيز والعمل الجماعي المتقن."</p>
+        <div class="safety-badge">السلامة أولاً • Safety First</div>
+        <p style="margin-top: 20px; font-size: 0.7rem; color: #555;">SOMAPORT LOGISTICS 2026</p>
+    </footer>
 
     <script>
-        const API_URL = "https://api.sheetbest.com/sheets/b6e3ae1f-2190-406c-8264-091975545af0";
+        const API = "https://api.sheetbest.com/sheets/b6e3ae1f-2190-406c-8264-091975545af0";
 
-        // وضع التاريخ الحالي
-        const dateOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-        document.getElementById('date-now').innerText = new Date().toLocaleDateString('ar-MA', dateOptions);
+        // التاريخ
+        const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+        document.getElementById('date-text').innerText = new Date().toLocaleDateString('ar-MA', options);
 
-        async function fetchPlanning() {
+        async function loadData() {
             try {
-                const response = await fetch(API_URL);
-                const data = await response.json();
-                
-                const workerList = document.getElementById('worker-list');
-                const congeArea = document.getElementById('conge-area');
-                
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('table-area').style.display = 'table';
+                const res = await fetch(API);
+                const data = await res.json();
+                const list = document.getElementById('planning-list');
+                const conge = document.getElementById('conge-section');
+                document.getElementById('loader').style.display = 'none';
 
                 data.forEach(item => {
-                    // تنظيف مفاتيح البيانات من الفراغات
                     const get = (k) => {
-                        const found = Object.keys(item).find(s => s.trim() === k);
-                        return found ? item[found] : '';
+                        const key = Object.keys(item).find(s => s.trim() === k);
+                        return key ? item[key] : '';
                     };
 
-                    const binome = get('binome_number');
+                    const b = get('binome_number');
                     const p1 = get('partner1');
                     const p2 = get('partner2');
 
-                    if(!binome && !p1) return;
+                    if(!b && !p1) return;
 
-                    if(binome.toUpperCase().includes('CONGÉ')) {
-                        congeArea.style.display = 'block';
-                        congeArea.innerHTML = `
-                            <div class="conge-section">
-                                <div class="conge-header">🌴 وضعية العطلة (Congé)</div>
-                                <div style="font-size: 1.3rem; font-weight: bold; color: #333;">
-                                    ${p1} : ${p2.replace('In:', 'دخول:').replace('Out:', 'خروج:').replace('Lundi', 'الإثنين')}
-                                </div>
+                    if(b.toUpperCase().includes('CONGÉ')) {
+                        conge.style.display = 'block';
+                        conge.innerHTML = `
+                            <div class="conge-box">
+                                <h3>وضعية الاستراحة والعطل</h3>
+                                <p style="font-size:1.3rem; font-weight:700;">${p1}</p>
+                                <p style="color:#888; margin-top:10px;">${p2.replace('In:', 'دخول:').replace('Out:', 'خروج:')}</p>
                             </div>
                         `;
                     } else {
-                        const row = `
-                            <tr>
-                                <td class="binome-cell">${binome}</td>
-                                <td>${p1}</td>
-                                <td>${p2}</td>
-                            </tr>
+                        list.innerHTML += `
+                            <div class="worker-card">
+                                <div class="binome-info">
+                                    <span class="binome-tag">Binôme ${b}</span>
+                                    <div class="names-group">${p1} <span>|</span> ${p2}</div>
+                                </div>
+                            </div>
                         `;
-                        workerList.innerHTML += row;
                     }
                 });
-            } catch (error) {
-                document.getElementById('loading').innerText = "❌ فشل في تحميل البيانات.";
+            } catch (e) {
+                document.getElementById('loader').innerText = "فشل في الاتصال بالسيرفر";
             }
         }
 
-        fetchPlanning();
+        loadData();
     </script>
 </body>
 </html>
